@@ -1,0 +1,79 @@
+* {
+    margin:0;
+    padding:0;
+}
+
+.main {
+    width: 100%;
+    background-image: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%,rgba(0,0,0,0.6) 100%) ,url(https://images.pexels.com/photos/4737484/pexels-photo-4737484.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1);
+    background-position: center;
+    background-size: cover;
+    height:109vh;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
+.navbar {
+    width:2200px;
+    height:75px;
+}
+
+.icon {
+    width:200px;
+    height:70px;
+}
+
+.logo {
+    color: orange;
+    font-size: 35px;
+    font-family: Times;
+    float: left;
+    padding-top: 5%;
+    padding-left: 10%;
+    position: relative;
+}
+
+.form {
+    background:#00000054;
+    width:615px;
+    height:180px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+h2 {
+    color:orange;
+    font-family: Arial;
+    font-weight:bold;
+    padding-left:32%;
+    padding-top:5px;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    padding-top:20px;
+    justify-content: center;
+    margin-left:17px;
+}
+
+.input {
+    width:170px;
+    height:25px;
+    padding-left:5px;
+    border-bottom:2px solid orange;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.button {
+    width: 130px;
+    height:40px;
+    background:orange;
+    margin-top:30px;
+    font-size:18px;
+    border-radius:10px;
+    cursor:pointer;
+    text-decoration: none;
+}
