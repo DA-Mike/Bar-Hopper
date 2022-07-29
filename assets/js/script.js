@@ -1,5 +1,5 @@
 //vars
-var address = "757 Market St, San Francisco, CA 94103"; //document.querySelector("#address");
+// var address = "757 Market St, San Francisco, CA 94103"; //document.querySelector("#address");
 var barNumber = 3; //document.querySelector("#barNumber");
 var distance = 1; //document.querySelector("#distance");
 //var inputEl = document.querySelector(".input-form");
@@ -20,11 +20,13 @@ var yelpStartPoint = [];
 var shortList = [];
 var candidates = [];
 var yelpStart = [];
+var routeObj = [];
 
 //handles input
-function formSubmitHandler(distance) {
+function formSubmitHandler(distance, address) {
     meters = distance * 1609;
-    getStartPoints(address, meters);
+    // getStartPoints(address, meters);
+    console.log("distance: ", distance, " address: ", address);
 }
 
 //handles starting point selection
@@ -61,27 +63,47 @@ function getStartPoints(address, meters){
 // getStartPoints(address, meters);
 
 //TODO: get route
-function getRoute(startLat, startLong, endLat, endLong){
+function getRoute(candidateList, endLat, endLong){
     // var apiUrl = 'https://cors-anywhere.herokuapp.com/https://api.openrouteservice.org/v2/directions/foot-walking?api_key=' + orsApiKey + '&start=' + startLong + "," + startLat + '&end=' + endLong + "," + endLat + '&units=m';
-    var apiUrl = 'https://api.geoapify.com/v1/routing?waypoints=' + startLat + ',' + startLong + '|' + endLat + ',' + endLong + '&mode=walk&apiKey=' + geoKey;
-  fetch(apiUrl)
-    .then(function (response) {
-      if (response.ok) {
-        response.json().then(function (data) {
-            console.log(data);
-         // orsObj.push(data);
-            geoObj.push(data);
-        // console.log(startPoints);
+    var barWayPoints = '';
+    
+    for (i = 0; i < candidateList.length; i++) {
+        barWayPoints = barWayPoints.concat(candidateList[i].coordinates.latitude);
+        barWayPoints = barWayPoints.concat(",");
+        barWayPoints = barWayPoints.concat(candidateList[i].coordinates.longitude);
+        barWayPoints = barWayPoints.concat("|");
+        console.log("barwaypoints1: ", barWayPoints);
+    }
+    barWayPoints = barWayPoints.concat(endLat);
+    barWayPoints = barWayPoints.concat(",");
+    console.log("endLong: ", endLong);
+    barWayPoints = barWayPoints.concat(endLong);
 
+    console.log("barwaypoints: ", barWayPoints);
+    
+    
+    // var apiUrl = 'https://api.geoapify.com/v1/routing?waypoints=' + barWayPoints + '&format=json&mode=walk&&details=instruction_details&apiKey=' + geoKey;
+    var apiUrl = 'https://api.geoapify.com/v1/routing?waypoints=' + barWayPoints + '&format=json&mode=walk&&details=instruction_details&apiKey=' + geoKey;
+    
+    fetch(apiUrl)
+        .then(function (response) {
+        if (response.ok) {
+            response.json().then(function (data) {
+                console.log(data);
+            // orsObj.push(data);
+                // geoObj.push(data);
+            // console.log(startPoints);
+                routeObj.push(data);
+            });
+        } else {
+            alert('Error: ' + response.statusText);
+        }
+        })
+        .catch(function (error) {
+        alert('Unable to connect to OpenRouteSource');
         });
-      } else {
-        alert('Error: ' + response.statusText);
-      }
-    })
-    .catch(function (error) {
-      alert('Unable to connect to OpenRouteSource');
-    });
-    appendRoute(routeObj);
+        console.log("routeObj: ", routeObj);
+        // appendRoute(routeObj);
 }
 
 // getRoute(startLat, startLong, endLat, endLong);
@@ -112,7 +134,7 @@ function solveForStartPoints(yelp) {
     // appendStartPoints(yelpStart);
 }
 
-solveForStartPoints(geoObj, yelpObj);
+solveForStartPoints(yelpObj);
 
 //finds which quadrant start point is in relative to end point
 function findQuadrant(endLat, endLong, yelpStartPoint) {
@@ -190,18 +212,21 @@ function optimizer(candidates, shortList, startInput) {
         candidatesTemp.unshift(startInput[0]);
         for (i = 0; i < barNumber-1; i++) {
             console.log("candidatesTemp 1st");
-            
             for (x = 0; x < candidatesTemp.length; x++) {
                 var shortListSelection = candidates[Math.floor(Math.random() * (candidates.length-1))];
                 console.log("candidatesTemp 2nd");
-                if ((startInput[0].id !== shortListSelection.id) && candidatesTemp[x].id !== shortListSelection.id) {
-                    candidatesTemp.push(shortListSelection);
+                if (candidatesTemp.length < barNumber){
+                    if ((startInput[0].id !== shortListSelection.id) && candidatesTemp[x].id !== shortListSelection.id) {
+                        candidatesTemp.push(shortListSelection);
+                    }
                 }
             }
         }
         candidates = candidatesTemp;
         console.log("candidates >: ", candidates);
     }
+    console.log("candidates (out): ", candidates);
+    getRoute(candidates, endLat, endLong);
     // appendResults(candidates);
 }
 
@@ -243,6 +268,15 @@ function appendRoute(routeObj) {
 
 //TODO: event listeners
 //homepage event listener inputEl.addEventListener("submit", formSubmitHandler);
+document.getElementById('button')
+.addEventListener('click',function(){
+    console.log('Hello');
+    var address = document.getElementById('address').value;
+    var barnumber = document.getElementById('barnumber').value;
+    var distance = document.getElementById('distance').value;
+    formSubmitHandler(distance,address);
+// console.log(address,barnumber,distance);
+})
 //starting point event listener startEl.addEventListener("click", buttonClickHandler);
 
 
