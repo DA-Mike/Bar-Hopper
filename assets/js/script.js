@@ -1,7 +1,8 @@
 //vars
-var address = "757 Market St, San Francisco, CA 94103";
-var barNumber = 3;
-var distance = 1;
+var address = "757 Market St, San Francisco, CA 94103"; //document.querySelector("#address");
+var barNumber = 3; //document.querySelector("#barNumber");
+var distance = 1; //document.querySelector("#distance");
+//var inputEl = document.querySelector(".input-form");
 var yelpApiKey = 'DYFEfk2kVJcBhHtPathDiY9bh178rFPnBNdoblLIdXyHnc0tjKrJBrqVT0KEyPxX7RyfDrusI6nUOcD3YPuopXx3KpBnxPjGYWZzEGXKMEfS90kMw8lsHm-Us17fYnYx';
 var orsApiKey = '5b3ce3597851110001cf62485129bd04419745ee8e37972a9bab1ba9';
 var clientID = '3SeWPh-JvOsppFVV3D-UAQ';
@@ -20,10 +21,19 @@ var shortList = [];
 var candidates = [];
 var yelpStart = [];
 
+//handles input
 function formSubmitHandler(distance) {
     meters = distance * 1609;
     getStartPoints(address, meters);
 }
+
+//handles starting point selection
+//TODO
+function buttonClickHandler(event) {
+    // findQuadrant(endLat, endLong, yelpStartPoint);
+}
+
+//TODO plugin api functions to populate objects instead of using local storage
 
 //retrieves yelp api response
 function getStartPoints(address, meters){
@@ -43,21 +53,14 @@ function getStartPoints(address, meters){
         var endLong = data.region.center.longitude;
         yelpObj.push(data);
 
-        // console.log("end: ", endLat, endLong);
-        // console.log("start: ", data.businesses[0].coordinates.latitude, data.businesses[0].coordinates.longitude);
-        for (i=0; i < data.businesses.length; i++){
-            var startLat = data.businesses[i].coordinates.latitude;
-            var startLong = data.businesses[i].coordinates.longitude;
-            getRoute(startLat, startLong, endLat, endLong);
-
-        }
-        }
+    }
     });
+    // solveForStartPoints(yelpObj);
 }
 
 // getStartPoints(address, meters);
 
-//get route
+//TODO: get route
 function getRoute(startLat, startLong, endLat, endLong){
     // var apiUrl = 'https://cors-anywhere.herokuapp.com/https://api.openrouteservice.org/v2/directions/foot-walking?api_key=' + orsApiKey + '&start=' + startLong + "," + startLat + '&end=' + endLong + "," + endLat + '&units=m';
     var apiUrl = 'https://api.geoapify.com/v1/routing?waypoints=' + startLat + ',' + startLong + '|' + endLat + ',' + endLong + '&mode=walk&apiKey=' + geoKey;
@@ -78,13 +81,14 @@ function getRoute(startLat, startLong, endLat, endLong){
     .catch(function (error) {
       alert('Unable to connect to OpenRouteSource');
     });
+    appendRoute(routeObj);
 }
 
 // getRoute(startLat, startLong, endLat, endLong);
 
 
 //finds bars that are furthest away from endpoint with distance input parameter
-function solveForStartPoints(geo, yelp) {
+function solveForStartPoints(yelp) {
 
     for (i = 0; i < yelp[0].businesses.length; i++) {
         var itDistance = yelp[0].businesses[i].distance;
@@ -105,6 +109,7 @@ function solveForStartPoints(geo, yelp) {
  
     console.log("startPoints: ", startPoints);
     yelpStartPoint.push(yelpStart[0]);
+    // appendStartPoints(yelpStart);
 }
 
 solveForStartPoints(geoObj, yelpObj);
@@ -116,7 +121,6 @@ function findQuadrant(endLat, endLong, yelpStartPoint) {
     if (yelpStartPoint[0].coordinates.latitude < endLat && yelpStartPoint[0].coordinates.longitude > endLong) {
         quadrant4(endLat, endLong, yelpStartPoint, yelpObj);
     } else if (yelpStartPoint[0].coordinates.latitude < endLat && yelpStartPoint[0].coordinates.longitude < endLong) {
-        console.log("endLat: ", endLat, " endLong: ", endLong, " startLat: ", yelpStartPoint[0].coordinates.latitude, " startLong: ", yelpStartPoint[0].coordinates.longitude,)
         quadrant3(endLat, endLong, yelpStartPoint, yelpObj);
     } else if (yelpStartPoint[0].coordinates.latitude > endLat && yelpStartPoint[0].coordinates.longitude < endLong) {
         quadrant2(endLat, endLong, yelpStartPoint, yelpObj);
@@ -127,6 +131,7 @@ function findQuadrant(endLat, endLong, yelpStartPoint) {
 
 findQuadrant(endLat, endLong, yelpStartPoint);
 
+//quadrant solvers
 function quadrant4(endLat, endLong, yelpStartPoint, yelpObj) {
     for (i = 0; i < yelpObj[0].businesses.length; i++) {
         if ((yelpObj[0].businesses[i].coordinates.latitude < endLat) && (yelpObj[0].businesses[i].coordinates.longitude > endLong)) {
@@ -195,18 +200,50 @@ function optimizer(candidates, shortList, startInput) {
             }
         }
         candidates = candidatesTemp;
-        // candidates.unshift(startInput[0]);
         console.log("candidates >: ", candidates);
     }
+    // appendResults(candidates);
 }
 
 
 //append results to DOM
-
-//take desired start point and iterate though decreasing distances between startpoint and endpoint to find other bars (distance//bars)
+function appendStartPoints(points){
+    for (i = 0; i < points.length; i++) {
+        //create div element and add classes
+        //create h4 element and add classes
+        //create img element and add classes
+        //append h4 to div
+        //append img to div
+        //append div to container
+    }
+}
 
 //append route results to DOM
+function appendResults(barResults) {
+    for (i = 0; i < barResults.length; i ++) {
+        //create div element and add classes
+        //create h4 (bar name) element and add classes
+        //create img element and add classes
+        //creat h6 (distance) element and add classes
+        //append h4 to div
+        //append img to div
+        //append h6 to div
+        //append div to container
+    }
+}
 
-//event listeners
+function appendRoute(routeObj) {
+    //create div element and add classes
+    //create img element and add classes
+    //append img to div
+    //append div to container
+}
+
+
+
+//TODO: event listeners
+//homepage event listener inputEl.addEventListener("submit", formSubmitHandler);
+//starting point event listener startEl.addEventListener("click", buttonClickHandler);
+
 
 //initialize page
