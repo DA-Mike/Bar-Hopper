@@ -23,9 +23,12 @@ var yelpStart = [];
 var routeObj = [];
 
 //handles input
-function formSubmitHandler(distance, address) {
+function formSubmitHandler(distance, address, barnumber) {
     meters = distance * 1609;
     // getStartPoints(address, meters);
+    // address = '';
+    // barnumber = '';
+    // distance = '';
     console.log("distance: ", distance, " address: ", address);
 }
 
@@ -66,25 +69,38 @@ function getStartPoints(address, meters){
 function getRoute(candidateList, endLat, endLong){
     // var apiUrl = 'https://cors-anywhere.herokuapp.com/https://api.openrouteservice.org/v2/directions/foot-walking?api_key=' + orsApiKey + '&start=' + startLong + "," + startLat + '&end=' + endLong + "," + endLat + '&units=m';
     var barWayPoints = '';
+    var mapCoordinates = '';
     
     for (i = 0; i < candidateList.length; i++) {
         barWayPoints = barWayPoints.concat(candidateList[i].coordinates.latitude);
+        mapCoordinates = mapCoordinates.concat(candidateList[i].coordinates.longitude);
         barWayPoints = barWayPoints.concat(",");
+        mapCoordinates = mapCoordinates.concat(",");
         barWayPoints = barWayPoints.concat(candidateList[i].coordinates.longitude);
+        mapCoordinates = mapCoordinates.concat(candidateList[i].coordinates.latitude);
         barWayPoints = barWayPoints.concat("|");
+        mapCoordinates = mapCoordinates.concat(",");
         console.log("barwaypoints1: ", barWayPoints);
     }
     barWayPoints = barWayPoints.concat(endLat);
+    mapCoordinates = mapCoordinates.concat(endLong);
     barWayPoints = barWayPoints.concat(",");
+    mapCoordinates = mapCoordinates.concat(",");
     console.log("endLong: ", endLong);
     barWayPoints = barWayPoints.concat(endLong);
+    mapCoordinates = mapCoordinates.concat(endLat);
 
     console.log("barwaypoints: ", barWayPoints);
+  
+    // var geojson = JSON.stringify(geoJsonObj);
+    // var geojson = encodeURIComponent(geojson);
     
-    
+    var mapEl = document.getElementById("map");
     // var apiUrl = 'https://api.geoapify.com/v1/routing?waypoints=' + barWayPoints + '&format=json&mode=walk&&details=instruction_details&apiKey=' + geoKey;
     var apiUrl = 'https://api.geoapify.com/v1/routing?waypoints=' + barWayPoints + '&format=json&mode=walk&&details=instruction_details&apiKey=' + geoKey;
-    
+    var mapUrl = 'https://maps.geoapify.com/v1/staticmap?style=osm-carto&width=500&height=500&zoom=8.8&geometry=polyline:' + mapCoordinates + ';linewidth:5;linecolor:%23ff6600;linestyle:solid;fillcolor:%236600ff;lineopacity:1;fillopacity:0.8&apiKey=' + geoKey;
+    $(mapEl).attr("src", mapUrl);
+
     fetch(apiUrl)
         .then(function (response) {
         if (response.ok) {
@@ -94,6 +110,7 @@ function getRoute(candidateList, endLat, endLong){
                 // geoObj.push(data);
             // console.log(startPoints);
                 routeObj.push(data);
+                appendRoute(routeObj);
             });
         } else {
             alert('Error: ' + response.statusText);
@@ -258,11 +275,35 @@ function appendResults(barResults) {
 }
 
 function appendRoute(routeObj) {
+    //routeObj[0].results[0].geometry[0][0].lon
+    var objWayPoints =  routeObj[0].results[0].geometry;
+    var wayPoints = '';
+    var counter = 0;
+
+    for (i = 0; i < objWayPoints.length; i++) {
+        // console.log("objWayPoints: ", objWayPoints);
+        for (n = 0; n < objWayPoints[i].length; n++){
+            // console.log("objWayPoints[i]: ", objWayPoints[i]);
+            if (counter !== 0) {
+                wayPoints = wayPoints.concat(',');
+            }
+            wayPoints = wayPoints.concat(objWayPoints[i][n].lon);
+            wayPoints = wayPoints.concat(',');
+            wayPoints = wayPoints.concat(objWayPoints[i][n].lat);
+            counter++;
+        }
+    }
+    console.log("wayPoints: ", wayPoints);
+    console.log("counter: ", counter);
+    var mapEl = document.getElementById("map");
+    var mapUrl = 'https://maps.geoapify.com/v1/staticmap?style=osm-carto&width=500&height=500&zoom=8.8&geometry=polyline:' + wayPoints + ';linewidth:5;linecolor:%23ff6600;linestyle:solid;fillcolor:%236600ff;lineopacity:1;fillopacity:0.8&apiKey=' + geoKey;
+    $(mapEl).attr("src", mapUrl);
     //create div element and add classes
     //create img element and add classes
     //append img to div
     //append div to container
 }
+
 
 
 
@@ -274,7 +315,7 @@ document.getElementById('button')
     var address = document.getElementById('address').value;
     var barnumber = document.getElementById('barnumber').value;
     var distance = document.getElementById('distance').value;
-    formSubmitHandler(distance,address);
+    formSubmitHandler(distance,address,barnumber);
 // console.log(address,barnumber,distance);
 })
 //starting point event listener startEl.addEventListener("click", buttonClickHandler);
