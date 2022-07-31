@@ -10,10 +10,20 @@ var geoKey = '1087193dbf4941adac63e35463300f5e';
 var meters = distance * 1609;
 var startPoints = [];
 // var orsObj = JSON.parse(localStorage.getItem("ors"));
-var geoObj = JSON.parse(localStorage.getItem("geoObj"));
-var yelpObj = JSON.parse(localStorage.getItem("yelpObj"));
+
+var geoObj = JSON.parse(localStorage.getItem("geoObj"))||[]
+var yelpObj = JSON.parse(localStorage.getItem("yelpObj"))||[]
 // var startLat = 37.787047;
 // var startLong = -122.401239;
+<<<<<<< HEAD
+// var endLat = 37.78658629651325;
+// var endLong = -122.4045181274414;
+console.log(geoObj,yelpObj);
+
+function formSubmitHandler(distance,address) {
+    var meters = parseInt(distance) * 1609;
+    getStartPoints(address, meters);
+=======
 var endLat = 37.78665355217418;
 var endLong = -122.40389365795478;
 var yelpStartPoint = [];
@@ -30,6 +40,7 @@ function formSubmitHandler(distance, address, barnumber) {
     // barnumber = '';
     // distance = '';
     console.log("distance: ", distance, " address: ", address);
+>>>>>>> 4af9fd603459addb89f80d236af9069707ee89e4
 }
 
 //handles starting point selection
@@ -58,7 +69,19 @@ function getStartPoints(address, meters){
         var endLong = data.region.center.longitude;
         yelpObj.push(data);
 
+<<<<<<< HEAD
+        // console.log("end: ", endLat, endLong);
+        // console.log("start: ", data.businesses[0].coordinates.latitude, data.businesses[0].coordinates.longitude);
+        for (i=0; i < data.businesses.length; i++){ // use barnumber 
+            var startLat = data.businesses[i].coordinates.latitude;
+            var startLong = data.businesses[i].coordinates.longitude;
+            getRoute(startLat, startLong, endLat, endLong);
+
+        }
+        }
+=======
     }
+>>>>>>> 4af9fd603459addb89f80d236af9069707ee89e4
     });
     // solveForStartPoints(yelpObj);
 }
@@ -68,6 +91,18 @@ function getStartPoints(address, meters){
 //TODO: get route
 function getRoute(candidateList, endLat, endLong){
     // var apiUrl = 'https://cors-anywhere.herokuapp.com/https://api.openrouteservice.org/v2/directions/foot-walking?api_key=' + orsApiKey + '&start=' + startLong + "," + startLat + '&end=' + endLong + "," + endLat + '&units=m';
+<<<<<<< HEAD
+    var apiUrl = 'https://api.geoapify.com/v1/routing?waypoints=' + startLat + ',' + startLong + '|' + endLat + ',' + endLong + '&mode=walk&apiKey=' + geoKey;
+  fetch(apiUrl)
+    .then(function (response) {
+      if (response.ok) {
+        response.json().then(function (data) {
+            console.log(data);
+         // orsObj.push(data);
+            geoObj.push(data);
+        // console.log(startPoints);
+// append data to HTML
+=======
     var barWayPoints = '';
     
     for (i = 0; i < candidateList.length; i++) {
@@ -102,6 +137,7 @@ function getRoute(candidateList, endLat, endLong){
         })
         .catch(function (error) {
         alert('Unable to connect to OpenRouteSource');
+>>>>>>> 4af9fd603459addb89f80d236af9069707ee89e4
         });
         console.log("routeObj: ", routeObj);
         // appendRoute(routeObj);
@@ -335,8 +371,22 @@ function appendRoute(routeObj) {
     //append div to container
 }
 
+document.getElementById('button')
+.addEventListener('click',function(){
+    
+    
+    var address = document.getElementById('address').value
+    var barnumber = document.getElementById('barnumber').value
+    var distance = document.getElementById('distance').value
+formSubmitHandler(distance,address)
+console.log(address,barnumber,distance)
+})
 
+<<<<<<< HEAD
+// solveForStartPoints(geoObj, yelpObj);
+=======
 
+>>>>>>> 4af9fd603459addb89f80d236af9069707ee89e4
 
 //TODO: event listeners
 //homepage event listener inputEl.addEventListener("submit", formSubmitHandler);
