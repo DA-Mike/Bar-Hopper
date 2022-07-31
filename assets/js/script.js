@@ -9,15 +9,17 @@ var geoKey = '1087193dbf4941adac63e35463300f5e';
 var meters = distance * 1609;
 var startPoints = [];
 // var orsObj = JSON.parse(localStorage.getItem("ors"));
-var geoObj = JSON.parse(localStorage.getItem("geoObj"));
-var yelpObj = JSON.parse(localStorage.getItem("yelpObj"));
+
+var geoObj = JSON.parse(localStorage.getItem("geoObj"))||[]
+var yelpObj = JSON.parse(localStorage.getItem("yelpObj"))||[]
 // var startLat = 37.787047;
 // var startLong = -122.401239;
 // var endLat = 37.78658629651325;
 // var endLong = -122.4045181274414;
+console.log(geoObj,yelpObj);
 
-function formSubmitHandler(distance) {
-    meters = distance * 1609;
+function formSubmitHandler(distance,address) {
+    var meters = parseInt(distance) * 1609;
     getStartPoints(address, meters);
 }
 
@@ -41,7 +43,7 @@ function getStartPoints(address, meters){
 
         // console.log("end: ", endLat, endLong);
         // console.log("start: ", data.businesses[0].coordinates.latitude, data.businesses[0].coordinates.longitude);
-        for (i=0; i < data.businesses.length; i++){
+        for (i=0; i < data.businesses.length; i++){ // use barnumber 
             var startLat = data.businesses[i].coordinates.latitude;
             var startLong = data.businesses[i].coordinates.longitude;
             getRoute(startLat, startLong, endLat, endLong);
@@ -67,7 +69,7 @@ function getRoute(startLat, startLong, endLat, endLong){
          // orsObj.push(data);
             geoObj.push(data);
         // console.log(startPoints);
-
+// append data to HTML
         });
       } else {
         alert('Error: ' + response.statusText);
@@ -130,9 +132,18 @@ function solveForStartPoints(geo, yelp) {
     // }
 }
 
+document.getElementById('button')
+.addEventListener('click',function(){
+    
+    
+    var address = document.getElementById('address').value
+    var barnumber = document.getElementById('barnumber').value
+    var distance = document.getElementById('distance').value
+formSubmitHandler(distance,address)
+console.log(address,barnumber,distance)
+})
 
-
-solveForStartPoints(geoObj, yelpObj);
+// solveForStartPoints(geoObj, yelpObj);
 
 //append results to DOM
 
