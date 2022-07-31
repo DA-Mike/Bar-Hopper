@@ -69,38 +69,22 @@ function getStartPoints(address, meters){
 function getRoute(candidateList, endLat, endLong){
     // var apiUrl = 'https://cors-anywhere.herokuapp.com/https://api.openrouteservice.org/v2/directions/foot-walking?api_key=' + orsApiKey + '&start=' + startLong + "," + startLat + '&end=' + endLong + "," + endLat + '&units=m';
     var barWayPoints = '';
-    var mapCoordinates = '';
     
     for (i = 0; i < candidateList.length; i++) {
         barWayPoints = barWayPoints.concat(candidateList[i].coordinates.latitude);
-        mapCoordinates = mapCoordinates.concat(candidateList[i].coordinates.longitude);
         barWayPoints = barWayPoints.concat(",");
-        mapCoordinates = mapCoordinates.concat(",");
         barWayPoints = barWayPoints.concat(candidateList[i].coordinates.longitude);
-        mapCoordinates = mapCoordinates.concat(candidateList[i].coordinates.latitude);
         barWayPoints = barWayPoints.concat("|");
-        mapCoordinates = mapCoordinates.concat(",");
-        console.log("barwaypoints1: ", barWayPoints);
     }
     barWayPoints = barWayPoints.concat(endLat);
-    mapCoordinates = mapCoordinates.concat(endLong);
     barWayPoints = barWayPoints.concat(",");
-    mapCoordinates = mapCoordinates.concat(",");
-    console.log("endLong: ", endLong);
     barWayPoints = barWayPoints.concat(endLong);
-    mapCoordinates = mapCoordinates.concat(endLat);
 
     console.log("barwaypoints: ", barWayPoints);
-  
-    // var geojson = JSON.stringify(geoJsonObj);
-    // var geojson = encodeURIComponent(geojson);
-    
-    var mapEl = document.getElementById("map");
+
     // var apiUrl = 'https://api.geoapify.com/v1/routing?waypoints=' + barWayPoints + '&format=json&mode=walk&&details=instruction_details&apiKey=' + geoKey;
     var apiUrl = 'https://api.geoapify.com/v1/routing?waypoints=' + barWayPoints + '&format=json&mode=walk&&details=instruction_details&apiKey=' + geoKey;
-    var mapUrl = 'https://maps.geoapify.com/v1/staticmap?style=osm-carto&width=500&height=500&zoom=8.8&geometry=polyline:' + mapCoordinates + ';linewidth:5;linecolor:%23ff6600;linestyle:solid;fillcolor:%236600ff;lineopacity:1;fillopacity:0.8&apiKey=' + geoKey;
-    $(mapEl).attr("src", mapUrl);
-
+    
     fetch(apiUrl)
         .then(function (response) {
         if (response.ok) {
@@ -148,7 +132,7 @@ function solveForStartPoints(yelp) {
  
     console.log("startPoints: ", startPoints);
     yelpStartPoint.push(yelpStart[0]);
-    // appendStartPoints(yelpStart);
+    appendStartPoints(yelpStart);
 }
 
 solveForStartPoints(yelpObj);
@@ -243,14 +227,26 @@ function optimizer(candidates, shortList, startInput) {
         console.log("candidates >: ", candidates);
     }
     console.log("candidates (out): ", candidates);
-    getRoute(candidates, endLat, endLong);
+    // getRoute(candidates, endLat, endLong);
     // appendResults(candidates);
 }
 
 
 //append results to DOM
 function appendStartPoints(points){
+    var spContainer = document.getElementsByClassName("startpoints-container");
+    var counter = 0;
+
     for (i = 0; i < points.length; i++) {
+        var spDiv = $('<div class="startpoint"></div>');
+        var spName = $('<h4 class="startpoint-name">' + points[i].name + '</h4>');
+        var spImg = $('<img src=' + points[i].image_url + ' width="200" height="200">');
+
+        $(spDiv).append(spName);
+        $(spDiv).append(spImg);
+        $(spContainer).append(spDiv);
+        counter++;
+
         //create div element and add classes
         //create h4 element and add classes
         //create img element and add classes
@@ -279,25 +275,60 @@ function appendRoute(routeObj) {
     var objWayPoints =  routeObj[0].results[0].geometry;
     var wayPoints = '';
     var counter = 0;
+    var latlngs = [];
+    var objBarPoints = routeObj[0].properties.waypoints;
+
+    // for (i = 0; i < objWayPoints.length; i++) {
+    //     // console.log("objWayPoints: ", objWayPoints);
+    //     for (n = 0; n < objWayPoints[i].length; n++){
+    //         // console.log("objWayPoints[i]: ", objWayPoints[i]);
+    //         if (counter !== 0) {
+    //             wayPoints = wayPoints.concat(',');
+    //         }
+    //         wayPoints = wayPoints.concat(objWayPoints[i][n].lon);
+    //         wayPoints = wayPoints.concat(',');
+    //         wayPoints = wayPoints.concat(objWayPoints[i][n].lat);
+    //         counter++;
+    //     }
+    // }
 
     for (i = 0; i < objWayPoints.length; i++) {
         // console.log("objWayPoints: ", objWayPoints);
         for (n = 0; n < objWayPoints[i].length; n++){
             // console.log("objWayPoints[i]: ", objWayPoints[i]);
-            if (counter !== 0) {
-                wayPoints = wayPoints.concat(',');
-            }
-            wayPoints = wayPoints.concat(objWayPoints[i][n].lon);
-            wayPoints = wayPoints.concat(',');
-            wayPoints = wayPoints.concat(objWayPoints[i][n].lat);
-            counter++;
+            var tempArr = [];
+            // if (counter !== 0) {
+            //     wayPoints = wayPoints.push(',');
+            // }
+            tempArr.push(objWayPoints[i][n].lat);
+            // tempArr.push(',');
+            tempArr.push(objWayPoints[i][n].lon);
+            latlngs.push(tempArr);
+            // counter++;
         }
     }
-    console.log("wayPoints: ", wayPoints);
-    console.log("counter: ", counter);
-    var mapEl = document.getElementById("map");
-    var mapUrl = 'https://maps.geoapify.com/v1/staticmap?style=osm-carto&width=500&height=500&zoom=8.8&geometry=polyline:' + wayPoints + ';linewidth:5;linecolor:%23ff6600;linestyle:solid;fillcolor:%236600ff;lineopacity:1;fillopacity:0.8&apiKey=' + geoKey;
-    $(mapEl).attr("src", mapUrl);
+    console.log("latlngs: ", latlngs);
+    // console.log("wayPoints: ", wayPoints);
+    // console.log("counter: ", counter);
+    // var mapEl = document.getElementById("map");
+    // var mapUrl = 'https://maps.geoapify.com/v1/staticmap?style=osm-carto&width=500&height=500&zoom=8.8&geometry=polyline:' + wayPoints + ';linewidth:5;linecolor:%23ff6600;linestyle:solid;fillcolor:%236600ff;lineopacity:1;fillopacity:0.8&apiKey=' + geoKey;
+    // $(mapEl).attr("src", mapUrl);
+
+    var map = L.map('map').setView([endLat, endLong], 13);
+    var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
+
+// zoom the map to the polyline
+    map.fitBounds(polyline.getBounds());    
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap',
+        className: 'map-tiles'
+    }).addTo(map);
+
+    for (i = 0; i < objBarPoints.length; i++) {
+        L.marker([objBarPoints[i].lat, objBarPoints[i].lon]).addTo(map);
+    }
     //create div element and add classes
     //create img element and add classes
     //append img to div

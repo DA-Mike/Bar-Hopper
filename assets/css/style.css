@@ -81,3 +81,16 @@ h2 {
     cursor:pointer;
     text-decoration: none;
 }
+
+.startpoints-container {
+    color: purple;
+}
+
+.results-container {
+    display: none;
+}
+
+#map { 
+    height: 300px; 
+    margin-bottom: 2em;
+}
