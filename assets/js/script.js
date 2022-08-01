@@ -3,18 +3,17 @@
 var barNumber = 3; //document.querySelector("#barNumber");
 var distance = 1; //document.querySelector("#distance");
 //var inputEl = document.querySelector(".input-form");
+var startEl = document.querySelector(".startpoints-container");
 var yelpApiKey = 'DYFEfk2kVJcBhHtPathDiY9bh178rFPnBNdoblLIdXyHnc0tjKrJBrqVT0KEyPxX7RyfDrusI6nUOcD3YPuopXx3KpBnxPjGYWZzEGXKMEfS90kMw8lsHm-Us17fYnYx';
 var orsApiKey = '5b3ce3597851110001cf62485129bd04419745ee8e37972a9bab1ba9';
 var clientID = '3SeWPh-JvOsppFVV3D-UAQ';
 var geoKey = '1087193dbf4941adac63e35463300f5e';
 var meters = distance * 1609;
 var startPoints = [];
-// var orsObj = JSON.parse(localStorage.getItem("ors"));
-
 var geoObj = JSON.parse(localStorage.getItem("geoObj"))||[]
 var yelpObj = JSON.parse(localStorage.getItem("yelpObj"))||[]
-// var startLat = 37.787047;
-// var startLong = -122.401239;
+var startLat = 0; //37.787047;
+var startLong = 0; //-122.401239;
 var endLat = 37.78665355217418;
 var endLong = -122.40389365795478;
 var yelpStartPoint = [];
@@ -26,17 +25,28 @@ var routeObj = [];
 //handles input
 function formSubmitHandler(distance, address, barnumber) {
     meters = distance * 1609;
-    // getStartPoints(address, meters);
-    // address = '';
-    // barnumber = '';
-    // distance = '';
+    address = '';
+    barnumber = '';
+    distance = '';
     console.log("distance: ", distance, " address: ", address);
+    getStartPoints(address, meters);
 }
 
 //handles starting point selection
 //TODO
 function buttonClickHandler(event) {
-    // findQuadrant(endLat, endLong, yelpStartPoint);
+    event.preventDefault();
+
+    var bar = event.target.getAttribute('name');
+
+    for (i = 0; i < yelpStart.length; i++){
+        if (yelpStart[i].name === bar){
+            yelpStartPoint = yelpStart[i];
+            findQuadrant(endLat, endLat, yelpStartPoint);
+        }
+    }
+
+    console.log(bar);
 }
 
 //TODO plugin api functions to populate objects instead of using local storage
@@ -55,13 +65,13 @@ function getStartPoints(address, meters){
     success: function(data){
         console.log('success: '+data);
         
-        var endLat = data.region.center.latitude;
-        var endLong = data.region.center.longitude;
+        endLat = data.region.center.latitude;
+        endLong = data.region.center.longitude;
         yelpObj.push(data);
 
     }
     });
-    // solveForStartPoints(yelpObj);
+    solveForStartPoints(yelpObj);
 }
 
 // getStartPoints(address, meters);
@@ -136,24 +146,24 @@ function solveForStartPoints(yelp) {
     appendStartPoints(yelpStart);
 }
 
-solveForStartPoints(yelpObj);
+// solveForStartPoints(yelpObj);
 
 //finds which quadrant start point is in relative to end point
 function findQuadrant(endLat, endLong, yelpStartPoint) {
     console.log("yelpstartpoint: ", yelpStartPoint);
     
-    if (yelpStartPoint[0].coordinates.latitude < endLat && yelpStartPoint[0].coordinates.longitude > endLong) {
+    if (yelpStartPoint.coordinates.latitude < endLat && yelpStartPoint.coordinates.longitude > endLong) {
         quadrant4(endLat, endLong, yelpStartPoint, yelpObj);
-    } else if (yelpStartPoint[0].coordinates.latitude < endLat && yelpStartPoint[0].coordinates.longitude < endLong) {
+    } else if (yelpStartPoint.coordinates.latitude < endLat && yelpStartPoint.coordinates.longitude < endLong) {
         quadrant3(endLat, endLong, yelpStartPoint, yelpObj);
-    } else if (yelpStartPoint[0].coordinates.latitude > endLat && yelpStartPoint[0].coordinates.longitude < endLong) {
+    } else if (yelpStartPoint.coordinates.latitude > endLat && yelpStartPoint.coordinates.longitude < endLong) {
         quadrant2(endLat, endLong, yelpStartPoint, yelpObj);
     } else {
         quadrant1(endLat, endLong, yelpStartPoint, yelpObj);
     }
 }
 
-findQuadrant(endLat, endLong, yelpStartPoint);
+// findQuadrant(endLat, endLong, yelpStartPoint);
 
 //quadrant solvers
 function quadrant4(endLat, endLong, yelpStartPoint, yelpObj) {
@@ -211,14 +221,14 @@ function optimizer(candidates, shortList, startInput) {
     } else if (candidates.length > barNumber) {
         console.log("bars >");
         var candidatesTemp = [];
-        candidatesTemp.unshift(startInput[0]);
+        candidatesTemp.unshift(startInput);
         for (i = 0; i < barNumber-1; i++) {
             console.log("candidatesTemp 1st");
             for (x = 0; x < candidatesTemp.length; x++) {
                 var shortListSelection = candidates[Math.floor(Math.random() * (candidates.length-1))];
                 console.log("candidatesTemp 2nd");
                 if (candidatesTemp.length < barNumber){
-                    if ((startInput[0].id !== shortListSelection.id) && candidatesTemp[x].id !== shortListSelection.id) {
+                    if ((startInput.id !== shortListSelection.id) && candidatesTemp[x].id !== shortListSelection.id) {
                         candidatesTemp.push(shortListSelection);
                     }
                 }
@@ -228,55 +238,55 @@ function optimizer(candidates, shortList, startInput) {
         console.log("candidates >: ", candidates);
     }
     console.log("candidates (out): ", candidates);
-    // getRoute(candidates, endLat, endLong);
-    // appendResults(candidates);
+    getRoute(candidates, endLat, endLong);
+    appendResults(candidates);
 }
 
 
 //append results to DOM
 function appendStartPoints(points){
     var spContainer = document.getElementsByClassName("startpoints-container");
-    var counter = 0;
-
+    
     for (i = 0; i < points.length; i++) {
-        var spDiv = $('<div class="startpoint"></div>');
-        var spName = $('<h4 class="startpoint-name">' + points[i].name + '</h4>');
-        var spImg = $('<img src=' + points[i].image_url + ' width="200" height="200">');
+        var spDiv = $('<div class="startpoint" name=' + points[i].name + '></div>');
+        var spName = '<a href=' + points[i].url + '>' + points[i].name + '</a>';
+        // var spName = $('<h4 class="startpoint-name" name=' + points[i].name + '>' + points[i].name + '</h4>');
+        var spImg = $('<img src=' + points[i].image_url + ' width="200" height="200" name=' + points[i].name + '>');
 
         $(spDiv).append(spName);
         $(spDiv).append(spImg);
         $(spContainer).append(spDiv);
-        counter++;
-
-        //create div element and add classes
-        //create h4 element and add classes
-        //create img element and add classes
-        //append h4 to div
-        //append img to div
-        //append div to container
     }
 }
 
 //append route results to DOM
 function appendResults(barResults) {
+    var resultsEl = document.getElementsByClassName('results');
     for (i = 0; i < barResults.length; i ++) {
-        //create div element and add classes
-        //create h4 (bar name) element and add classes
-        //create img element and add classes
-        //creat h6 (distance) element and add classes
-        //append h4 to div
-        //append img to div
-        //append h6 to div
-        //append div to container
+        var rDiv = $('<div class="result"></div>');
+        var rName = $('<h4 class="barname">' + barResults[i].name + '</h4>');
+        var rImg = $('<img src=' + barResults[i].image_url + 'width="200" height="200" name=' + barResults[i].name + '>');
+        var rDist = $('<h6 class="bar-distance">Distance: ' + Math.round(barResults[i].distance) + ' mi</h6>');
+
+        $(rDiv).append(rName);
+        $(rDiv).append(rImg);
+        $(rDiv).append(rDist);
+        $(resultsEl).append(rDiv);
     }
 }
 
+//appends route to DOM
 function appendRoute(routeObj) {
+    // var spContainer = document.getElementsByClassName("startpoints-container");
+    var resultsContainer = document.getElementsByClassName("results-container");
     var objWayPoints =  routeObj[0].results[0].geometry;
     var wayPoints = '';
     var counter = 0;
     var latlngs = [];
     var objBarPoints = routeObj[0].properties.waypoints;
+
+    $(startEl).css("display", "none");
+    $(resultsContainer).css("display", "flex");
 
     for (i = 0; i < objWayPoints.length; i++) {
         for (n = 0; n < objWayPoints[i].length; n++){
@@ -303,14 +313,9 @@ function appendRoute(routeObj) {
     for (i = 0; i < objBarPoints.length; i++) {
         L.marker([objBarPoints[i].lat, objBarPoints[i].lon]).addTo(map);
     }
-    //create div element and add classes
-    //create img element and add classes
-    //append img to div
-    //append div to container
 }
 
-//TODO: event listeners
-//homepage event listener inputEl.addEventListener("submit", formSubmitHandler);
+//homepage event listener
 document.getElementById('button')
 .addEventListener('click',function(){
     console.log('Hello');
@@ -320,7 +325,9 @@ document.getElementById('button')
     formSubmitHandler(distance,address,barnumber);
 // console.log(address,barnumber,distance);
 })
-//starting point event listener startEl.addEventListener("click", buttonClickHandler);
+
+//starting point event listener 
+startEl.addEventListener("click", buttonClickHandler);
 
 
 //initialize page
