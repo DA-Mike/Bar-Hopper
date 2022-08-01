@@ -1,7 +1,7 @@
 //vars
-// var address = "757 Market St, San Francisco, CA 94103"; //document.querySelector("#address");
-var barNumber = 3; //document.querySelector("#barNumber");
-var distance = 1; //document.querySelector("#distance");
+var address = '';
+var barNumber = 0;
+var distance = 0;
 //var inputEl = document.querySelector(".input-form");
 var startEl = document.querySelector(".startpoints-container");
 var yelpApiKey = 'DYFEfk2kVJcBhHtPathDiY9bh178rFPnBNdoblLIdXyHnc0tjKrJBrqVT0KEyPxX7RyfDrusI6nUOcD3YPuopXx3KpBnxPjGYWZzEGXKMEfS90kMw8lsHm-Us17fYnYx';
@@ -25,31 +25,27 @@ var routeObj = [];
 //handles input
 function formSubmitHandler(distance, address, barnumber) {
     meters = distance * 1609;
-    address = '';
-    barnumber = '';
-    distance = '';
+    // address = '';
+    // barnumber = '';
+    // distance = '';
     console.log("distance: ", distance, " address: ", address);
     getStartPoints(address, meters);
 }
 
 //handles starting point selection
-//TODO
 function buttonClickHandler(event) {
     event.preventDefault();
 
     var bar = event.target.getAttribute('name');
 
     for (i = 0; i < yelpStart.length; i++){
-        if (yelpStart[i].name === bar){
+        if (yelpStart[i].id == bar){
             yelpStartPoint = yelpStart[i];
             findQuadrant(endLat, endLat, yelpStartPoint);
         }
     }
-
     console.log(bar);
 }
-
-//TODO plugin api functions to populate objects instead of using local storage
 
 //retrieves yelp api response
 function getStartPoints(address, meters){
@@ -73,8 +69,6 @@ function getStartPoints(address, meters){
     });
     solveForStartPoints(yelpObj);
 }
-
-// getStartPoints(address, meters);
 
 //TODO: get route
 function getRoute(candidateList, endLat, endLong){
@@ -101,9 +95,6 @@ function getRoute(candidateList, endLat, endLong){
         if (response.ok) {
             response.json().then(function (data) {
                 console.log(data);
-            // orsObj.push(data);
-                // geoObj.push(data);
-            // console.log(startPoints);
                 routeObj.push(data);
                 appendRoute(routeObj);
             });
@@ -112,14 +103,10 @@ function getRoute(candidateList, endLat, endLong){
         }
         })
         .catch(function (error) {
-        alert('Unable to connect to OpenRouteSource');
+        alert('Unable to connect to GeoApify');
         });
         console.log("routeObj: ", routeObj);
-        // appendRoute(routeObj);
 }
-
-// getRoute(startLat, startLong, endLat, endLong);
-
 
 //finds bars that are furthest away from endpoint with distance input parameter
 function solveForStartPoints(yelp) {
@@ -143,10 +130,9 @@ function solveForStartPoints(yelp) {
  
     console.log("startPoints: ", startPoints);
     yelpStartPoint.push(yelpStart[0]);
+    console.log("yelpStart: ", yelpStart);
     appendStartPoints(yelpStart);
 }
-
-// solveForStartPoints(yelpObj);
 
 //finds which quadrant start point is in relative to end point
 function findQuadrant(endLat, endLong, yelpStartPoint) {
@@ -162,8 +148,6 @@ function findQuadrant(endLat, endLong, yelpStartPoint) {
         quadrant1(endLat, endLong, yelpStartPoint, yelpObj);
     }
 }
-
-// findQuadrant(endLat, endLong, yelpStartPoint);
 
 //quadrant solvers
 function quadrant4(endLat, endLong, yelpStartPoint, yelpObj) {
@@ -248,10 +232,10 @@ function appendStartPoints(points){
     var spContainer = document.getElementsByClassName("startpoints-container");
     
     for (i = 0; i < points.length; i++) {
-        var spDiv = $('<div class="startpoint" name=' + points[i].name + '></div>');
-        var spName = '<a href=' + points[i].url + '>' + points[i].name + '</a>';
+        var spDiv = $('<div class="startpoint" name=' + points[i].id + '></div>');
+        var spName = $('<a href=' + points[i].url + '>' + points[i].name + '</a>');
         // var spName = $('<h4 class="startpoint-name" name=' + points[i].name + '>' + points[i].name + '</h4>');
-        var spImg = $('<img src=' + points[i].image_url + ' width="200" height="200" name=' + points[i].name + '>');
+        var spImg = $('<img src=' + points[i].image_url + ' width="200" height="200" name=' + points[i].id + '>');
 
         $(spDiv).append(spName);
         $(spDiv).append(spImg);
@@ -265,7 +249,7 @@ function appendResults(barResults) {
     for (i = 0; i < barResults.length; i ++) {
         var rDiv = $('<div class="result"></div>');
         var rName = $('<h4 class="barname">' + barResults[i].name + '</h4>');
-        var rImg = $('<img src=' + barResults[i].image_url + 'width="200" height="200" name=' + barResults[i].name + '>');
+        var rImg = $('<img src=' + barResults[i].image_url + ' width="200" height="200" name=' + barResults[i].name + '>');
         var rDist = $('<h6 class="bar-distance">Distance: ' + Math.round(barResults[i].distance) + ' mi</h6>');
 
         $(rDiv).append(rName);
@@ -319,9 +303,9 @@ function appendRoute(routeObj) {
 document.getElementById('button')
 .addEventListener('click',function(){
     console.log('Hello');
-    var address = document.getElementById('address').value;
-    var barnumber = document.getElementById('barnumber').value;
-    var distance = document.getElementById('distance').value;
+    address = document.getElementById('address').value;
+    barNumber = document.getElementById('barnumber').value;
+    distance = document.getElementById('distance').value;
     formSubmitHandler(distance,address,barnumber);
 // console.log(address,barnumber,distance);
 })
