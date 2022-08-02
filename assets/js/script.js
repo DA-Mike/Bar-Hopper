@@ -2,7 +2,6 @@
 var address = '';
 var barNumber = 0;
 var distance = 0;
-//var inputEl = document.querySelector(".input-form");
 var startEl = document.querySelector(".startpoints-container");
 var yelpApiKey = 'DYFEfk2kVJcBhHtPathDiY9bh178rFPnBNdoblLIdXyHnc0tjKrJBrqVT0KEyPxX7RyfDrusI6nUOcD3YPuopXx3KpBnxPjGYWZzEGXKMEfS90kMw8lsHm-Us17fYnYx';
 var orsApiKey = '5b3ce3597851110001cf62485129bd04419745ee8e37972a9bab1ba9';
@@ -10,10 +9,10 @@ var clientID = '3SeWPh-JvOsppFVV3D-UAQ';
 var geoKey = '1087193dbf4941adac63e35463300f5e';
 var meters = distance * 1609;
 var startPoints = [];
-var geoObj = JSON.parse(localStorage.getItem("geoObj"))||[]
-var yelpObj = JSON.parse(localStorage.getItem("yelpObj"))||[]
-var startLat = 0; //37.787047;
-var startLong = 0; //-122.401239;
+var geoObj = []; //JSON.parse(localStorage.getItem("geoObj"))||[]
+var yelpObj = []; //JSON.parse(localStorage.getItem("yelpObj"))||[]
+var startLat = 0; 
+var startLong = 0;
 var endLat = 37.78665355217418;
 var endLong = -122.40389365795478;
 var yelpStartPoint = [];
@@ -22,14 +21,9 @@ var candidates = [];
 var yelpStart = [];
 var routeObj = [];
 
-// test comment
 //handles input
 function formSubmitHandler(distance, address, barnumber) {
     meters = distance * 1609;
-    // address = '';
-    // barnumber = '';
-    // distance = '';
-    console.log("distance: ", distance, " address: ", address);
     getStartPoints(address, meters);
 }
 
@@ -45,7 +39,6 @@ function buttonClickHandler(event) {
             findQuadrant(endLat, endLat, yelpStartPoint);
         }
     }
-    console.log(bar);
 }
 
 //retrieves yelp api response
@@ -59,9 +52,7 @@ function getStartPoints(address, meters){
     },
     method: 'GET',
     dataType: 'json',
-    success: function(data){
-        console.log('success: '+data);
-        
+    success: function(data){        
         endLat = data.region.center.latitude;
         endLong = data.region.center.longitude;
         yelpObj.push(data);
@@ -72,7 +63,7 @@ function getStartPoints(address, meters){
 
 //TODO: get route
 function getRoute(candidateList, endLat, endLong){
-    // var apiUrl = 'https://cors-anywhere.herokuapp.com/https://api.openrouteservice.org/v2/directions/foot-walking?api_key=' + orsApiKey + '&start=' + startLong + "," + startLat + '&end=' + endLong + "," + endLat + '&units=m';
+    
     var barWayPoints = '';
     
     for (i = 0; i < candidateList.length; i++) {
@@ -85,16 +76,12 @@ function getRoute(candidateList, endLat, endLong){
     barWayPoints = barWayPoints.concat(",");
     barWayPoints = barWayPoints.concat(endLong);
 
-    console.log("barwaypoints: ", barWayPoints);
-
-    // var apiUrl = 'https://api.geoapify.com/v1/routing?waypoints=' + barWayPoints + '&format=json&mode=walk&&details=instruction_details&apiKey=' + geoKey;
     var apiUrl = 'https://api.geoapify.com/v1/routing?waypoints=' + barWayPoints + '&format=json&mode=walk&&details=instruction_details&apiKey=' + geoKey;
     
     fetch(apiUrl)
         .then(function (response) {
         if (response.ok) {
             response.json().then(function (data) {
-                console.log(data);
                 routeObj.push(data);
                 appendRoute(routeObj);
             });
@@ -105,7 +92,6 @@ function getRoute(candidateList, endLat, endLong){
         .catch(function (error) {
         alert('Unable to connect to GeoApify');
         });
-        console.log("routeObj: ", routeObj);
 }
 
 //finds bars that are furthest away from endpoint with distance input parameter
@@ -120,23 +106,17 @@ function solveForStartPoints(yelp) {
             shortList.push(yelp[0].businesses[i]);
         }
     }
-    console.log("yelpStart: ", yelpStart);
-    
     yelpStart.sort((a, b) => a < b ? 1 : a > b ? -1 : 0);
     
     for (i = 0; i < 3; i++) {
         startPoints.push(yelpStart[i]);
     }
- 
-    console.log("startPoints: ", startPoints);
     yelpStartPoint.push(yelpStart[0]);
-    console.log("yelpStart: ", yelpStart);
-    appendStartPoints(yelpStart);
+    appendStartPoints(startPoints);
 }
 
 //finds which quadrant start point is in relative to end point
 function findQuadrant(endLat, endLong, yelpStartPoint) {
-    console.log("yelpstartpoint: ", yelpStartPoint);
     
     if (yelpStartPoint.coordinates.latitude < endLat && yelpStartPoint.coordinates.longitude > endLong) {
         quadrant4(endLat, endLong, yelpStartPoint, yelpObj);
@@ -156,7 +136,6 @@ function quadrant4(endLat, endLong, yelpStartPoint, yelpObj) {
             candidates.push(yelpObj[0].businesses[i]);
         }
     }
-    console.log("candidates4: ", candidates);
     optimizer(candidates, shortList, yelpStartPoint);
 }
 
@@ -167,7 +146,6 @@ function quadrant3(endLat, endLong, yelpStartPoint, yelpObj) {
         }
     }
     optimizer(candidates, shortList, yelpStartPoint);
-    console.log("candidates3: ", candidates);
 }
 
 function quadrant2(endLat, endLong, yelpStartPoint, yelpObj) {
@@ -176,7 +154,6 @@ function quadrant2(endLat, endLong, yelpStartPoint, yelpObj) {
             candidates.push(yelpObj[0].businesses[i]);
         }
     }
-    console.log("candidates2: ", candidates);
     optimizer(candidates, shortList, yelpStartPoint);
 }
 
@@ -186,31 +163,24 @@ function quadrant1(endLat, endLong, yelpStartPoint, yelpObj) {
             candidates.push(yelpObj[0].businesses[i]);
         }
     }
-    console.log("candidates1: ", candidates);
     optimizer(candidates, shortList, yelpStartPoint);
 }
 
 //optimizes list to ensure the results match the desired number of bars
 function optimizer(candidates, shortList, startInput) {
-    console.log("startInput: ", startInput);
     if (candidates.length < barNumber) {
-        console.log("bars <");
         for (i = 0; i < (barNumber - candidates.length); i++) {
             var shortListSelection = shortList[Math.floor(Math.random() * (shortList.length-1))];
             if (startInput[0].id !== shortListSelection.id){
                 candidates.push(shortListSelection);
             }
         }
-        console.log("candidates <: ", candidates);
-    } else if (candidates.length > barNumber) {
-        console.log("bars >");
+    } else if (candidates.length > barNumber) { //if found bars list is > barNumber then shortens list
         var candidatesTemp = [];
         candidatesTemp.unshift(startInput);
         for (i = 0; i < barNumber-1; i++) {
-            console.log("candidatesTemp 1st");
             for (x = 0; x < candidatesTemp.length; x++) {
                 var shortListSelection = candidates[Math.floor(Math.random() * (candidates.length-1))];
-                console.log("candidatesTemp 2nd");
                 if (candidatesTemp.length < barNumber){
                     if ((startInput.id !== shortListSelection.id) && candidatesTemp[x].id !== shortListSelection.id) {
                         candidatesTemp.push(shortListSelection);
@@ -219,9 +189,7 @@ function optimizer(candidates, shortList, startInput) {
             }
         }
         candidates = candidatesTemp;
-        console.log("candidates >: ", candidates);
     }
-    console.log("candidates (out): ", candidates);
     getRoute(candidates, endLat, endLong);
     appendResults(candidates);
 }
@@ -234,7 +202,6 @@ function appendStartPoints(points){
     for (i = 0; i < points.length; i++) {
         var spDiv = $('<div class="startpoint" name=' + points[i].id + '></div>');
         var spName = $('<a href=' + points[i].url + '>' + points[i].name + '</a>');
-        // var spName = $('<h4 class="startpoint-name" name=' + points[i].name + '>' + points[i].name + '</h4>');
         var spImg = $('<img src=' + points[i].image_url + ' width="200" height="200" name=' + points[i].id + '>');
 
         $(spDiv).append(spName);
@@ -250,7 +217,7 @@ function appendResults(barResults) {
         var rDiv = $('<div class="result"></div>');
         var rName = $('<h4 class="barname">' + barResults[i].name + '</h4>');
         var rImg = $('<img src=' + barResults[i].image_url + ' width="200" height="200" name=' + barResults[i].name + '>');
-        var rDist = $('<h6 class="bar-distance">Distance: ' + Math.round(barResults[i].distance) + ' mi</h6>');
+        var rDist = $('<h6 class="bar-distance">Distance: ' + ((barResults[i].distance/1609).toFixed(2)) + ' mi</h6>');
 
         $(rDiv).append(rName);
         $(rDiv).append(rImg);
@@ -264,8 +231,6 @@ function appendRoute(routeObj) {
     // var spContainer = document.getElementsByClassName("startpoints-container");
     var resultsContainer = document.getElementsByClassName("results-container");
     var objWayPoints =  routeObj[0].results[0].geometry;
-    var wayPoints = '';
-    var counter = 0;
     var latlngs = [];
     var objBarPoints = routeObj[0].properties.waypoints;
 
@@ -280,7 +245,6 @@ function appendRoute(routeObj) {
             latlngs.push(tempArr);
         }
     }
-    console.log("latlngs: ", latlngs);
 
     var map = L.map('map').setView([endLat, endLong], 13);
     var polyline = L.polyline(latlngs, {color: 'red'}).addTo(map);
@@ -302,16 +266,21 @@ function appendRoute(routeObj) {
 //homepage event listener
 document.getElementById('button')
 .addEventListener('click',function(){
-    console.log('Hello');
     address = document.getElementById('address').value;
     barNumber = document.getElementById('barnumber').value;
     distance = document.getElementById('distance').value;
     formSubmitHandler(distance,address,barnumber);
-// console.log(address,barnumber,distance);
 })
+
+function init() {
+    document.getElementById('address').value = '';
+    document.getElementById('barnumber').value = '';
+    document.getElementById('distance').value = '';
+}
 
 //starting point event listener 
 startEl.addEventListener("click", buttonClickHandler);
 
 
 //initialize page
+init();
