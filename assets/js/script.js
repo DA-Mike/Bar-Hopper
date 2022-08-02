@@ -64,10 +64,10 @@ function getStartPoints(address, meters){
         endLat = data.region.center.latitude;
         endLong = data.region.center.longitude;
         yelpObj.push(data);
+        solveForStartPoints(yelpObj);
 
     }
     });
-    solveForStartPoints(yelpObj);
 }
 
 //TODO: get route
