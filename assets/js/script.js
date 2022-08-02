@@ -22,6 +22,7 @@ var candidates = [];
 var yelpStart = [];
 var routeObj = [];
 
+// test comment
 //handles input
 function formSubmitHandler(distance, address, barnumber) {
     meters = distance * 1609;
@@ -65,7 +66,6 @@ function getStartPoints(address, meters){
         endLong = data.region.center.longitude;
         yelpObj.push(data);
         solveForStartPoints(yelpObj);
-
     }
     });
 }
