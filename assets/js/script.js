@@ -24,6 +24,13 @@ var routeObj = [];
 //handles input
 function formSubmitHandler(distance, address, barnumber) {
     meters = distance * 1609;
+    var resultsContainerEl = document.getElementsByClassName('results-container');
+    var mapEl = document.getElementsByClassName('map');
+    var resultsEl = document.getElementsByClassName('results');
+    $(resultsContainerEl).css("display", "none");
+    $(startEl).empty();
+    $(resultsEl).empty();
+    $(mapEl).empty();
     getStartPoints(address, meters);
 }
 
@@ -96,7 +103,7 @@ function getRoute(candidateList, endLat, endLong){
 
 //finds bars that are furthest away from endpoint with distance input parameter
 function solveForStartPoints(yelp) {
-
+    startPoints = [];
     for (i = 0; i < yelp[0].businesses.length; i++) {
         var itDistance = yelp[0].businesses[i].distance;
         if (itDistance >= (meters * .9) || itDistance >= (meters * .65) || itDistance >= (meters * .5)) {
@@ -111,7 +118,7 @@ function solveForStartPoints(yelp) {
     for (i = 0; i < 3; i++) {
         startPoints.push(yelpStart[i]);
     }
-    yelpStartPoint.push(yelpStart[0]);
+    yelpStartPoint = yelpStart[0];
     appendStartPoints(startPoints);
 }
 
@@ -198,9 +205,10 @@ function optimizer(candidates, shortList, startInput) {
 //append results to DOM
 function appendStartPoints(points){
     var spContainer = document.getElementsByClassName("startpoints-container");
+    $(spContainer).css("display", "flex");
     
     for (i = 0; i < points.length; i++) {
-        var spDiv = $('<div class="startpoint" name=' + points[i].id + '></div>');
+        var spDiv = $('<div class="startpoint col-sm-2" name=' + points[i].id + '></div>');
         var spName = $('<a href=' + points[i].url + ' target="_blank">' + points[i].name + '</a>');
         var spImg = $('<img src=' + points[i].image_url + ' width="200" height="200" name=' + points[i].id + '>');
 
@@ -213,6 +221,10 @@ function appendStartPoints(points){
 //append route results to DOM
 function appendResults(barResults) {
     var resultsEl = document.getElementsByClassName('results');
+    // var resultsContainer = document.getElementsByClassName("results-container");
+
+    $(resultsEl).css("display", "grid");
+
     for (i = 0; i < barResults.length; i ++) {
         var rDiv = $('<div class="result"></div>');
         var rName = $('<h4 class="barname">' + barResults[i].name + '</h4>');
@@ -236,6 +248,7 @@ function appendRoute(routeObj) {
 
     $(startEl).css("display", "none");
     $(resultsContainer).css("display", "flex");
+    // resultsContainer.style.display = "grid";
 
     for (i = 0; i < objWayPoints.length; i++) {
         for (n = 0; n < objWayPoints[i].length; n++){
