@@ -23,17 +23,17 @@
                 <ul>
                     <li><a onClick="window.location.reload();">Home</a></li>
                     <li><a href="https://github.com/DA-Mike/Bar-Hopper">About</a></li>
-                    <li><a>Contact</a></li>
+                    <li><a href="mailto:mike.rugh@gmail.com">Contact</a></li>
                 </ul>
             </div>
         </div>
 
 
 
-        <div class="row form">
+        <div class="row form input-container">
             <!-- TODO: Add labels to each input field -->
             <div class="container">
-                <div><h2>Get Your Result Here</h2></div>
+                <div><h2>Get Your Bar Hopping Route Here!</h2></div>
                 <div class="row">
                     <input class="input" id='address' type="textarea" placeholder="Address">
                     <input class="input" id='barnumber' type="textarea" placeholder="Number of Bars">
@@ -44,20 +44,15 @@
                 </div>
             </div>
         </div>
-
+        <h2 class="select-sp">Select Your Starting Point</h2>
         <div class="startpoints-container row">
-            <!-- <div class="col-sm-1"></div>
-            <div class="col-sm-3"></div>
-            <div class="col-sm-3"></div>
-            <div class="col-sm-3"></div>
-            <div class="col-sm-1"></div> -->
+            
         </div>
 
-
+        <h2 class="route-info">Here's Your Route!</h2>
         <div class="results-container row">
             <div class="results col-md-2"></div>
             <div class="map col-md-6" id='map'></div>
-            <!-- <div class="col-md-2"></div>  -->
         </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

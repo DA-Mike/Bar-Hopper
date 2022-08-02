@@ -2,6 +2,7 @@
 var address = '';
 var barNumber = 0;
 var distance = 0;
+var inputEl = document.getElementsByClassName('input-container');
 var startEl = document.querySelector(".startpoints-container");
 var yelpApiKey = 'DYFEfk2kVJcBhHtPathDiY9bh178rFPnBNdoblLIdXyHnc0tjKrJBrqVT0KEyPxX7RyfDrusI6nUOcD3YPuopXx3KpBnxPjGYWZzEGXKMEfS90kMw8lsHm-Us17fYnYx';
 var orsApiKey = '5b3ce3597851110001cf62485129bd04419745ee8e37972a9bab1ba9';
@@ -205,7 +206,10 @@ function optimizer(candidates, shortList, startInput) {
 //append results to DOM
 function appendStartPoints(points){
     var spContainer = document.getElementsByClassName("startpoints-container");
+    var selectH2El = document.getElementsByClassName("select-sp");
+    $(selectH2El).css("display", "block");
     $(spContainer).css("display", "flex");
+    $(inputEl).css("display", "none");
     
     for (i = 0; i < points.length; i++) {
         var spDiv = $('<div class="startpoint col-sm-2" name=' + points[i].id + '></div>');
@@ -221,8 +225,10 @@ function appendStartPoints(points){
 //append route results to DOM
 function appendResults(barResults) {
     var resultsEl = document.getElementsByClassName('results');
-    // var resultsContainer = document.getElementsByClassName("results-container");
+    var selectH2El = document.getElementsByClassName('select-sp');
+    var routeInfoEl = document.getElementsByClassName('route-info');
 
+    $(selectH2El).css("display", "none");
     $(resultsEl).css("display", "grid");
 
     for (i = 0; i < barResults.length; i ++) {
@@ -236,11 +242,11 @@ function appendResults(barResults) {
         $(rDiv).append(rDist);
         $(resultsEl).append(rDiv);
     }
+    $(routeInfoEl).css("display", "grid");
 }
 
 //appends route to DOM
 function appendRoute(routeObj) {
-    // var spContainer = document.getElementsByClassName("startpoints-container");
     var resultsContainer = document.getElementsByClassName("results-container");
     var objWayPoints =  routeObj[0].results[0].geometry;
     var latlngs = [];
@@ -248,7 +254,6 @@ function appendRoute(routeObj) {
 
     $(startEl).css("display", "none");
     $(resultsContainer).css("display", "flex");
-    // resultsContainer.style.display = "grid";
 
     for (i = 0; i < objWayPoints.length; i++) {
         for (n = 0; n < objWayPoints[i].length; n++){
