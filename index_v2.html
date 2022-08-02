@@ -13,51 +13,36 @@
 </head>
 <body>
     <div class="main">
-
         <div class="row navbar">
             <div class="icon">
-                <h2 class="logo">BarHopper</h2> <img class="img" src="./assets/images/Customized-neon-bar-sign-tube-sign-neon-beer-lights (1).jpg" />
-            </div>
-
-            <div class="menu">
-                <ul>
-                    <li><a onClick="window.location.reload();">Home</a></li>
-                    <li><a href="https://github.com/DA-Mike/Bar-Hopper">About</a></li>
-                    <li><a>Contact</a></li>
-                </ul>
+                <h2 class="logo">BarHopper</h2>
             </div>
         </div>
-
-
-
         <div class="row form">
             <!-- TODO: Add labels to each input field -->
             <div class="container">
-                <div><h2>Get Your Result Here</h2></div>
+                <div class="row"><h2>Get Your Result Here</h2></div>
                 <div class="row">
                     <input class="input" id='address' type="textarea" placeholder="Address">
                     <input class="input" id='barnumber' type="textarea" placeholder="Number of Bars">
                     <input class="input" id='distance' type="textarea" placeholder="Maximum Distance (miles)">
                 </div>
                 <div class="row">
-                    <button class="button" id="button"><a id="search" href="#">Search</a></button>
+                    <button class="button" id="button"><a href="#"> Search </a></button>
                 </div>
             </div>
         </div>
-
         <div class="startpoints-container row">
-            <!-- <div class="col-sm-1"></div>
+            <div class="col-sm-1"></div>
             <div class="col-sm-3"></div>
             <div class="col-sm-3"></div>
             <div class="col-sm-3"></div>
-            <div class="col-sm-1"></div> -->
+            <div class="col-sm-1"></div>
         </div>
-
-
         <div class="results-container row">
-            <div class="results col-md-2"></div>
+            <div class="results col-md-4"></div>
             <div class="map col-md-6" id='map'></div>
-            <!-- <div class="col-md-2"></div>  -->
+            <div class="col-md-2"></div> 
         </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
