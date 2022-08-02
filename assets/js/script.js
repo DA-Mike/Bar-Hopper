@@ -9,12 +9,12 @@ var clientID = '3SeWPh-JvOsppFVV3D-UAQ';
 var geoKey = '1087193dbf4941adac63e35463300f5e';
 var meters = distance * 1609;
 var startPoints = [];
-var geoObj = []; //JSON.parse(localStorage.getItem("geoObj"))||[]
-var yelpObj = []; //JSON.parse(localStorage.getItem("yelpObj"))||[]
+var geoObj = []; 
+var yelpObj = []; 
 var startLat = 0; 
 var startLong = 0;
-var endLat = 37.78665355217418;
-var endLong = -122.40389365795478;
+var endLat = 0; 
+var endLong = 0; 
 var yelpStartPoint = [];
 var shortList = [];
 var candidates = [];
@@ -201,7 +201,7 @@ function appendStartPoints(points){
     
     for (i = 0; i < points.length; i++) {
         var spDiv = $('<div class="startpoint" name=' + points[i].id + '></div>');
-        var spName = $('<a href=' + points[i].url + '>' + points[i].name + '</a>');
+        var spName = $('<a href=' + points[i].url + ' target="_blank">' + points[i].name + '</a>');
         var spImg = $('<img src=' + points[i].image_url + ' width="200" height="200" name=' + points[i].id + '>');
 
         $(spDiv).append(spName);
