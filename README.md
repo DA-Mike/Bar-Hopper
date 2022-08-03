@@ -17,9 +17,11 @@ This app utilizes the Yelp, Geoapify, and Leaflet APIs for finding bar locations
 
 https://da-mike.github.io/Bar-Hopper/
 
-
 ## Mock Up
 
+The following image shows the web application's appearance and functionality:
+
+![The Bar Hopper app includes a search option where you can find the best bar hopping route.](./assets/images/mockup.png)
 
 ## License
 
