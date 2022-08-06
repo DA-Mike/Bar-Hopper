@@ -1,17 +1,48 @@
-/*TODO: Add classes that format the start point buttons */
-/*TODO: Add classes that format the route list*/
-/*TODO: Add classes that format the route image */
+
+:root {
+    --pink: rgb(163, 0, 150);
+    /* --pink: #FF9933; */
+}
 
 * {
     margin:0;
     padding:0;
 }
 
-body{
-    min-width:1000px;
+@keyframes neon-text-shadow {
+	0% {text-shadow:
+        -1px -1px 0 var(--pink),
+        1px -1px 0 var(--pink),
+        -1px 1px 0 var(--pink),
+        1px 1px 0 var(--pink),
+        0 0 15px purple;}
+	50% {text-shadow:
+        -1px -1px 0 var(--pink),
+        1px -1px 0 var(--pink),
+        -1px 1px 0 var(--pink),
+        1px 1px 0 var(--pink),
+        0 0 55px purple;}
+	100% {text-shadow:
+        -1px -1px 0 var(--pink),
+        1px -1px 0 var(--pink),
+        -1px 1px 0 var(--pink),
+        1px 1px 0 var(--pink),
+        0 0 15px purple;}
 }
 
-.main {
+body, html {
+    height: 100%;
+}
+
+body {
+    background-image: url('../images/city-skyline-1.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    height: 100vh;
+    overflow-x: scroll;
+}
+/* .main {
     width: 100%;
     background-image: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%,rgba(0,0,0,0.6) 100%) ,url(https://images.pexels.com/photos/4737484/pexels-photo-4737484.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1);
     background-position: center;
@@ -20,7 +51,7 @@ body{
     display: flex;
     flex-direction: column;
     margin: auto;
-}
+} */
 
 .navbar {
     height:75px;
@@ -32,7 +63,7 @@ body{
 }
 
 .logo {
-    color: orange;
+    color: var(--pink);
     font-size: 35px;
     font-family: Times;
     float: left;
@@ -66,22 +97,44 @@ ul li a{
     font-weight:bold;
 }
 
+/* .h2-title {
+    padding-top: 1%;
+} */
+
+.logo-text {
+    font-size: 3em;
+    color: black;
+    font-weight: 200;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: 2px;
+    animation: neon-text-shadow 2s ease-in-out infinite;
+}
+
+.logo-text-sm {
+    font-size: 1.5em;
+    color: black;
+    font-weight: 200;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: 2px;
+    animation: neon-text-shadow 2s ease-in-out infinite;
+}
+
 .form {
-    background:#00000054;
-    width:615px;
-    height:180px;
+    /* background:#00000054; */
+    width:50%;
+    height:25%;
     margin-left: auto;
     margin-right: auto;
 }
 
 h2 {
-    color:orange;
-    font-family: Arial;
-    font-weight:bold;
-    justify-content: center;
-    padding-top:5%;
-    padding-bottom:5px;
-    text-align: center;
+    font-size: 1.5em;
+    color: var(--pink);
+    font-weight: 200;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: 2px;
+    animation: neon-text-shadow 2s ease-in-out infinite;
+    padding-bottom: 3%;
 }
 
 
@@ -93,31 +146,71 @@ h2 {
     margin-left:17px;
 }
 
-.input {
+.input-container {
+    display: grid;
+    /* background-color: rgba(0, 0, 0, 0.25); */
+    margin-top: 5%;
+    justify-content: center;
+}
+
+.input-fields {
+    /* width: 20em; */
+    /* background-color: rgba(0,0,0,0.1); */
+}
+
+.box {
+    background-color: rgba(0, 0, 0, 0.5);
+    align-items: center;
+}
+
+/* .input {
     width:170px;
     height:25px;
     padding-left:5px;
     border-bottom:2px solid orange;
     margin-left: 5px;
     margin-right: 5px;
+} */
+
+.input {
+    /* background-color: rgba(0, 0, 0, 0.01); */
+    /* opacity: .1; */
+    color: rgb(255, 255, 255);
+}
+
+.input-field {
+    background-color: rgba(30,30,30,.8) !important;
+    /* opacity: .2; */
+}
+
+.tile.is-child {
+    margin: none;
+}
+
+.button-container {
+    align-items: center;
+    justify-content: center;
+    display: flex;
 }
 
 .button {
-    width: 110px;
-    height:40px;
-    background:orange;
-    margin-top:13px;
-    font-size:18px;
+    width: 15em;
+    background:var(--pink);
+    margin-top:.5em;
+    font-size:1em;
     border-radius:10px;
     cursor:pointer;
     text-decoration: none;
+    color: white;
+    justify-self: center;
+    float: center;
 }
 
 .startpoints-container {
-    color: orange;
-    display: flex;
+    color: var(--pink);
+    display: none;
     flex-wrap: wrap;
-    padding-top: 20px;
+    padding-top: 3em;
     justify-content: space-evenly;
 }
 
@@ -129,24 +222,26 @@ h2 {
 .startpoint {
     display: grid;
     justify-content: center;
-    border: 3px solid orange;
+    border: 3px solid var(--pink);
     border-radius: 30px;
-    padding-bottom: 10px;
-    padding-top: 10px;
+    padding: 1em;
     background-color: rgba(0, 0, 0, 0.25);
+    margin: 1.5em !important;
 }
 
 .select-sp {
     display: none;
-    padding-top: 1em;
+    /* padding-top: 1em; */
   }
 
 .route-info {
     display: none;
+    margin-top: -15em;
+    margin-left: 2em;
 }
 
 a{ 
-    color:orange;
+    color: var(--pink);
     text-decoration: none;
     font-family:Arial;
     font-weight: bold;
@@ -160,12 +255,17 @@ a{
     display: none;
     padding-top: 20px;
     justify-content: center;
+    margin: 3em 10em 10em 5em;
+}
+
+.results {
+    margin: 3em;
 }
 
 
 .img{
     width:100px;
-    height:auto;
+    height: 100px;
     flex-wrap: wrap;
     display:flex;
     padding-left: 25%;
@@ -174,19 +274,19 @@ a{
 img {
     justify-self: center;
     border-radius: 15px;
+    width: 100px;
+    height: 100px;
 }
 
 
 #search{
-    color:black;
+    color: white;
     text-decoration: none;
     font-family:Arial;
     font-weight: bold;
     font-size:17px;
-    opacity: 0.7;
+    /* opacity: 0.25; */
 }
-
-
 
 .row{
     padding-right:8px;
@@ -203,11 +303,12 @@ img{
 
 .result{
     border-radius: 10px;
-    border: 3px solid orange;
+    border: 3px solid var(--pink);
     justify-content: center;
     display: grid;
     margin: .25em;
     background-color: rgba(0, 0, 0, 0.35);
+    padding: .5em;
 }
 
 .bar-distance{
@@ -215,7 +316,7 @@ img{
     justify-items: center;
     align-items: center;
     font-size:15px;
-    color:orange;
+    color:var(--pink);
     text-decoration: none;
     font-weight:bold;
     padding-bottom: .5em;
@@ -226,7 +327,7 @@ img{
     justify-items: center;
     align-items: center;
     font-size:18px;
-    color:ORANGE;
+    color: var(--pink);
     text-decoration: none;
     font-weight:bold;
 }
@@ -238,7 +339,9 @@ img{
 #map { 
     height:600px;
     width:500px;
-    border: 3px solid orange;
+    border: 3px solid var(--pink);
+    margin: 5em;
+    margin-top: -17em;
 }
 
 .col-md-6{
@@ -261,7 +364,7 @@ bottom:-4px;
 }
 
 .input:focus{
-    border:3px dashed #4b4b4b;
+    border:3px solid var(--pink);
     outline:none;
 }
 
@@ -274,10 +377,38 @@ bottom:-4px;
 
 .result:hover {
     cursor:grab;
-    box-shadow: 0 0 7px orange;
+    box-shadow: 0 0 7px var(--pink);
 }
 
 .startpoint:hover {
     cursor:grab;
-    box-shadow: 0 0 7px orange;
+    box-shadow: 0 0 7px var(--pink);
+}
+
+.input-field::-ms-input-placeholder {
+    color: gray;
+    opacity: .75;
+}
+
+.input-field::-webkit-input-placeholder{
+    color: gray;
+    opacity: .75;
+}
+
+.input-field::-moz-placeholder {
+    color: gray;
+    opacity: .75;
+}
+
+.sp-tile {
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+    padding: 3em;
+    text-align: center;
+}
+
+.sp-content {
+    justify-content: space-between;
+    padding-left: 5em;
+    padding-right: 5em;
 }

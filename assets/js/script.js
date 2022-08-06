@@ -28,10 +28,10 @@ function formSubmitHandler(distance, address, barnumber) {
     var resultsContainerEl = document.getElementsByClassName('results-container');
     var mapEl = document.getElementsByClassName('map');
     var resultsEl = document.getElementsByClassName('results');
-    $(resultsContainerEl).css("display", "none");
-    $(startEl).empty();
-    $(resultsEl).empty();
-    $(mapEl).empty();
+    // $(resultsContainerEl).css("display", "none");
+    // $(startEl).empty();
+    // $(resultsEl).empty();
+    // $(mapEl).empty();
     getStartPoints(address, meters);
 }
 
@@ -203,22 +203,24 @@ function optimizer(candidates, shortList, startInput) {
 }
 
 
-//append results to DOM
+//append startpoints to DOM
 function appendStartPoints(points){
+    var spContent = document.getElementsByClassName("sp-content");
     var spContainer = document.getElementsByClassName("startpoints-container");
     var selectH2El = document.getElementsByClassName("select-sp");
-    $(selectH2El).css("display", "block");
     $(spContainer).css("display", "flex");
+    $(selectH2El).css("display", "block");
+    $(spContent).css("display", "flex");
     $(inputEl).css("display", "none");
     
     for (i = 0; i < points.length; i++) {
-        var spDiv = $('<div class="startpoint col-sm-2" name=' + points[i].id + '></div>');
+        var spDiv = $('<div class="startpoint" name=' + points[i].id + '></div>');
         var spName = $('<a href=' + points[i].url + ' target="_blank">' + points[i].name + '</a>');
         var spImg = $('<img src=' + points[i].image_url + ' width="200" height="200" name=' + points[i].id + '>');
 
         $(spDiv).append(spName);
         $(spDiv).append(spImg);
-        $(spContainer).append(spDiv);
+        $(spContent).append(spDiv);
     }
 }
 
@@ -229,7 +231,8 @@ function appendResults(barResults) {
     var routeInfoEl = document.getElementsByClassName('route-info');
 
     $(selectH2El).css("display", "none");
-    $(resultsEl).css("display", "grid");
+    $(resultsEl).css("display", "block");
+    $(routeInfoEl).css("display: block");
 
     for (i = 0; i < barResults.length; i ++) {
         var rDiv = $('<div class="result"></div>');
