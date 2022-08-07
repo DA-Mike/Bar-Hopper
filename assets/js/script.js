@@ -51,8 +51,8 @@ function buttonClickHandler(event) {
 
 //retrieves yelp api response
 function getStartPoints(address, meters){
-    var myurl = "https://api.yelp.com/v3/businesses/search?term=bars&location=" + address + "&radius=" + meters + '&limit=30';
-    //https://cors-anywhere.herokuapp.com/
+    var myurl = "//https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=bars&location=" + address + "&radius=" + meters + '&limit=30';
+    
     $.ajax({
     
     url: myurl,
