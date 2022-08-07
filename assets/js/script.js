@@ -25,13 +25,6 @@ var routeObj = [];
 //handles input
 function formSubmitHandler(distance, address, barnumber) {
     meters = distance * 1609;
-    var resultsContainerEl = document.getElementsByClassName('results-container');
-    var mapEl = document.getElementsByClassName('map');
-    var resultsEl = document.getElementsByClassName('results');
-    // $(resultsContainerEl).css("display", "none");
-    // $(startEl).empty();
-    // $(resultsEl).empty();
-    // $(mapEl).empty();
     getStartPoints(address, meters);
 }
 
@@ -68,19 +61,17 @@ function getStartPoints(address, meters){
         solveForStartPoints(yelpObj);
     },
     error: function(err) {
-            // $(document).ready(function(){
-            // let modalEl = document.getElementById('myModal');
-            //     $("#myModal").addClass('is-active');
-            //     modalEl.addEventListener("click", closeModal);
-            //     function closeModal() {
-            //         $('#myModal').removeClass('is-active');
-            //     }
-            // })
+            $(document).ready(function(){
+            let modalEl = document.getElementById('myModal');
+                $("#myModal").addClass('is-active');
+                modalEl.addEventListener("click", closeModal);
+                function closeModal() {
+                    $('#myModal').removeClass('is-active');
+                }
+            })
         }   
     })    
     .fail(function (jqXHR, textStatus, errorThrown) {
-        // Request failed. Show error message to user. 
-        // errorThrown has error message.
         if (jqXHR.status !== 200) {
             $(document).ready(function(){
                 let modalEl = document.getElementById('myModal');
@@ -119,7 +110,6 @@ function getRoute(candidateList, endLat, endLong){
                 appendRoute(routeObj);
             });
         } else {
-            // alert('Error: ' + response.statusText);
             $(document).ready(function(){
                 let modalEl = document.getElementById('myModal');
                     $("#myModal").addClass('is-active');
@@ -131,7 +121,6 @@ function getRoute(candidateList, endLat, endLong){
         }
         })
         .catch(function (error) {
-        // alert('Unable to connect to GeoApify');
             $(document).ready(function(){
                 let modalEl = document.getElementById('myModal');
                     $("#myModal").addClass('is-active');
