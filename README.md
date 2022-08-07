@@ -15,7 +15,7 @@ This app utilizes the Yelp, Geoapify, and Leaflet APIs for finding bar locations
 
 ## Live Site
 
-https://da-mike.github.io/Bar-Hopper/
+https://bar-hopper.herokuapp.com/
 
 ## Mock Up
 
