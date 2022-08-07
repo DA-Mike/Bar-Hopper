@@ -1,7 +1,6 @@
 
 :root {
     --pink: rgb(163, 0, 150);
-    /* --pink: #FF9933; */
 }
 
 * {
@@ -42,16 +41,6 @@ body {
     height: 100vh;
     overflow-x: scroll;
 }
-/* .main {
-    width: 100%;
-    background-image: linear-gradient(to bottom, rgba(0,0,0,0.6) 0%,rgba(0,0,0,0.6) 100%) ,url(https://images.pexels.com/photos/4737484/pexels-photo-4737484.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1);
-    background-position: center;
-    background-size: cover;
-    height:170vh;
-    display: flex;
-    flex-direction: column;
-    margin: auto;
-} */
 
 .navbar {
     height:75px;
@@ -71,7 +60,6 @@ body {
     padding-left: 10%;
     position: relative;
 }
-
 
 .menu{
     width: 400px;
@@ -97,10 +85,6 @@ ul li a{
     font-weight:bold;
 }
 
-/* .h2-title {
-    padding-top: 1%;
-} */
-
 .logo-text {
     font-size: 3em;
     color: black;
@@ -120,7 +104,6 @@ ul li a{
 }
 
 .form {
-    /* background:#00000054; */
     width:50%;
     height:25%;
     margin-left: auto;
@@ -148,14 +131,8 @@ h2 {
 
 .input-container {
     display: grid;
-    /* background-color: rgba(0, 0, 0, 0.25); */
     margin-top: 5%;
     justify-content: center;
-}
-
-.input-fields {
-    /* width: 20em; */
-    /* background-color: rgba(0,0,0,0.1); */
 }
 
 .box {
@@ -163,24 +140,12 @@ h2 {
     align-items: center;
 }
 
-/* .input {
-    width:170px;
-    height:25px;
-    padding-left:5px;
-    border-bottom:2px solid orange;
-    margin-left: 5px;
-    margin-right: 5px;
-} */
-
 .input {
-    /* background-color: rgba(0, 0, 0, 0.01); */
-    /* opacity: .1; */
     color: rgb(255, 255, 255);
 }
 
 .input-field {
     background-color: rgba(30,30,30,.8) !important;
-    /* opacity: .2; */
 }
 
 .tile.is-child {
@@ -231,7 +196,6 @@ h2 {
 
 .select-sp {
     display: none;
-    /* padding-top: 1em; */
   }
 
 .route-info {
@@ -262,7 +226,6 @@ a{
     margin: 3em;
 }
 
-
 .img{
     width:100px;
     height: 100px;
@@ -278,14 +241,12 @@ img {
     height: 100px;
 }
 
-
 #search{
     color: white;
     text-decoration: none;
     font-family:Arial;
     font-weight: bold;
     font-size:17px;
-    /* opacity: 0.25; */
 }
 
 .row{
@@ -299,7 +260,6 @@ img{
     flex-wrap: wrap;
     justify-items: center;
 }
-
 
 .result{
     border-radius: 10px;
@@ -341,7 +301,6 @@ img{
     width:500px;
     border: 3px solid var(--pink);
     margin: 5em;
-    margin-top: -17em;
 }
 
 .col-md-6{
@@ -411,4 +370,14 @@ bottom:-4px;
     justify-content: space-between;
     padding-left: 5em;
     padding-right: 5em;
+}
+
+.modal {
+    height: 150px;
+    width: 300px;
+}
+
+#myModal {
+    margin: 20% auto;
+    border-radius: 20px;
 }

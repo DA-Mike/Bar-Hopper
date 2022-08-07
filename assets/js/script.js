@@ -54,6 +54,7 @@ function getStartPoints(address, meters){
     var myurl = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=bars&location=" + address + "&radius=" + meters + '&limit=30';
 
     $.ajax({
+    
     url: myurl,
     headers: {
         'Authorization':'Bearer ' + yelpApiKey,
@@ -65,7 +66,31 @@ function getStartPoints(address, meters){
         endLong = data.region.center.longitude;
         yelpObj.push(data);
         solveForStartPoints(yelpObj);
-    }
+    },
+    error: function(err) {
+            // $(document).ready(function(){
+            // let modalEl = document.getElementById('myModal');
+            //     $("#myModal").addClass('is-active');
+            //     modalEl.addEventListener("click", closeModal);
+            //     function closeModal() {
+            //         $('#myModal').removeClass('is-active');
+            //     }
+            // })
+        }   
+    })    
+    .fail(function (jqXHR, textStatus, errorThrown) {
+        // Request failed. Show error message to user. 
+        // errorThrown has error message.
+        if (jqXHR.status !== 200) {
+            $(document).ready(function(){
+                let modalEl = document.getElementById('myModal');
+                    $("#myModal").addClass('is-active');
+                    modalEl.addEventListener("click", closeModal);
+                    function closeModal() {
+                        $('#myModal').removeClass('is-active');
+                    }
+            })
+        }
     });
 }
 
@@ -94,11 +119,27 @@ function getRoute(candidateList, endLat, endLong){
                 appendRoute(routeObj);
             });
         } else {
-            alert('Error: ' + response.statusText);
+            // alert('Error: ' + response.statusText);
+            $(document).ready(function(){
+                let modalEl = document.getElementById('myModal');
+                    $("#myModal").addClass('is-active');
+                    modalEl.addEventListener("click", closeModal);
+                    function closeModal() {
+                        $('#myModal').removeClass('is-active');
+                    }
+            })
         }
         })
         .catch(function (error) {
-        alert('Unable to connect to GeoApify');
+        // alert('Unable to connect to GeoApify');
+            $(document).ready(function(){
+                let modalEl = document.getElementById('myModal');
+                    $("#myModal").addClass('is-active');
+                    modalEl.addEventListener("click", closeModal);
+                    function closeModal() {
+                        $('#myModal').removeClass('is-active');
+                    }
+            })
         });
 }
 
