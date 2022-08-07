@@ -28,10 +28,10 @@ function formSubmitHandler(distance, address, barnumber) {
     var resultsContainerEl = document.getElementsByClassName('results-container');
     var mapEl = document.getElementsByClassName('map');
     var resultsEl = document.getElementsByClassName('results');
-    $(resultsContainerEl).css("display", "none");
-    $(startEl).empty();
-    $(resultsEl).empty();
-    $(mapEl).empty();
+    // $(resultsContainerEl).css("display", "none");
+    // $(startEl).empty();
+    // $(resultsEl).empty();
+    // $(mapEl).empty();
     getStartPoints(address, meters);
 }
 
@@ -54,6 +54,7 @@ function getStartPoints(address, meters){
     var myurl = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=bars&location=" + address + "&radius=" + meters + '&limit=30';
 
     $.ajax({
+    
     url: myurl,
     headers: {
         'Authorization':'Bearer ' + yelpApiKey,
@@ -65,7 +66,31 @@ function getStartPoints(address, meters){
         endLong = data.region.center.longitude;
         yelpObj.push(data);
         solveForStartPoints(yelpObj);
-    }
+    },
+    error: function(err) {
+            // $(document).ready(function(){
+            // let modalEl = document.getElementById('myModal');
+            //     $("#myModal").addClass('is-active');
+            //     modalEl.addEventListener("click", closeModal);
+            //     function closeModal() {
+            //         $('#myModal').removeClass('is-active');
+            //     }
+            // })
+        }   
+    })    
+    .fail(function (jqXHR, textStatus, errorThrown) {
+        // Request failed. Show error message to user. 
+        // errorThrown has error message.
+        if (jqXHR.status !== 200) {
+            $(document).ready(function(){
+                let modalEl = document.getElementById('myModal');
+                    $("#myModal").addClass('is-active');
+                    modalEl.addEventListener("click", closeModal);
+                    function closeModal() {
+                        $('#myModal').removeClass('is-active');
+                    }
+            })
+        }
     });
 }
 
@@ -94,11 +119,27 @@ function getRoute(candidateList, endLat, endLong){
                 appendRoute(routeObj);
             });
         } else {
-            alert('Error: ' + response.statusText);
+            // alert('Error: ' + response.statusText);
+            $(document).ready(function(){
+                let modalEl = document.getElementById('myModal');
+                    $("#myModal").addClass('is-active');
+                    modalEl.addEventListener("click", closeModal);
+                    function closeModal() {
+                        $('#myModal').removeClass('is-active');
+                    }
+            })
         }
         })
         .catch(function (error) {
-        alert('Unable to connect to GeoApify');
+        // alert('Unable to connect to GeoApify');
+            $(document).ready(function(){
+                let modalEl = document.getElementById('myModal');
+                    $("#myModal").addClass('is-active');
+                    modalEl.addEventListener("click", closeModal);
+                    function closeModal() {
+                        $('#myModal').removeClass('is-active');
+                    }
+            })
         });
 }
 
@@ -203,22 +244,24 @@ function optimizer(candidates, shortList, startInput) {
 }
 
 
-//append results to DOM
+//append startpoints to DOM
 function appendStartPoints(points){
+    var spContent = document.getElementsByClassName("sp-content");
     var spContainer = document.getElementsByClassName("startpoints-container");
     var selectH2El = document.getElementsByClassName("select-sp");
-    $(selectH2El).css("display", "block");
     $(spContainer).css("display", "flex");
+    $(selectH2El).css("display", "block");
+    $(spContent).css("display", "flex");
     $(inputEl).css("display", "none");
     
     for (i = 0; i < points.length; i++) {
-        var spDiv = $('<div class="startpoint col-sm-2" name=' + points[i].id + '></div>');
+        var spDiv = $('<div class="startpoint" name=' + points[i].id + '></div>');
         var spName = $('<a href=' + points[i].url + ' target="_blank">' + points[i].name + '</a>');
         var spImg = $('<img src=' + points[i].image_url + ' width="200" height="200" name=' + points[i].id + '>');
 
         $(spDiv).append(spName);
         $(spDiv).append(spImg);
-        $(spContainer).append(spDiv);
+        $(spContent).append(spDiv);
     }
 }
 
@@ -229,7 +272,8 @@ function appendResults(barResults) {
     var routeInfoEl = document.getElementsByClassName('route-info');
 
     $(selectH2El).css("display", "none");
-    $(resultsEl).css("display", "grid");
+    $(resultsEl).css("display", "block");
+    $(routeInfoEl).css("display: block");
 
     for (i = 0; i < barResults.length; i ++) {
         var rDiv = $('<div class="result"></div>');

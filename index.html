@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang=“en”>
 <head>
-    <!-- TODO: Add webAPI that's like bootstrap but not bootstrap. Then utilize disignated webAPI for body-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flexboxgrid/6.3.1/flexboxgrid.min.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
     <link rel="stylesheet" href="./assets/css/style.css" />
     <link rel="stylesheet" href="./assets/css/dark-map.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
@@ -12,47 +13,64 @@
     <title>Bar Hopper</title>
 </head>
 <body>
-    <div class="main">
-
-        <div class="row navbar">
-            <div class="icon">
-                <h2 class="logo">BarHopper</h2> <img class="img" src="./assets/images/Customized-neon-bar-sign-tube-sign-neon-beer-lights (1).jpg" />
-            </div>
-
-            <div class="menu">
-                <ul>
-                    <li><a onClick="window.location.reload();">Home</a></li>
-                    <li><a href="https://github.com/DA-Mike/Bar-Hopper">About</a></li>
-                    <li><a href="mailto:mike.rugh@gmail.com">Contact</a></li>
-                </ul>
-            </div>
+    <div id="myModal" class="modal">
+        <div class="modal-background"></div>
+      
+        <div class="modal-content">
+          <div class="box">
+            <h3>Input Error</h3>
+            <p>Please try again</p>
+          </div>
         </div>
+      </div>
+    <header class="header has-background-black">
+        <nav class="level">
+            <p class="level-item has-text-centered">
+              <a class="link is-info logo-text-sm" href="https://github.com/DA-Mike/Bar-Hopper">About</a>
+            </p>
+            <p class="level-item has-text-centered">
+                <a class="link is-info logo-text" onClick="window.location.reload()">BarHopper</a>
+            </p>
+            
+            <p class="level-item has-text-centered">
+              <a class="link is-info logo-text-sm" href="mailto:mike.rugh@gmail.com">Contact</a>
+            </p>
+          </nav>
+        
+        </header>
 
-
-
-        <div class="row form input-container">
-            <!-- TODO: Add labels to each input field -->
-            <div class="container">
-                <div><h2>Get Your Bar Hopping Route Here!</h2></div>
-                <div class="row">
-                    <input class="input" id='address' type="textarea" placeholder="Address">
-                    <input class="input" id='barnumber' type="textarea" placeholder="Number of Bars">
-                    <input class="input" id='distance' type="textarea" placeholder="Maximum Distance (miles)">
+        <div class="form input-container">
+            <div class="box">
+                <div class="h2-title has-text-centered has-text-justified"><h2>Get Your Bar Hopping Route Here!</h2></div>
+                <div class="field input-fields">
+                    <input class="input input-field" id='address' type="textarea" placeholder="Address">
                 </div>
-                <div class="row">
+                <div class="field input-fields">
+                    <input class="input input-field" id='barnumber' type="textarea" placeholder="Number of Bars">
+                </div>
+                <div class="field input-fields">
+                    <input class="input input-field" id='distance' type="textarea" placeholder="Maximum Distance (miles)">
+                </div>
+                <div class="button-container">
                     <button class="button" id="button"><a id="search" href="#">Search</a></button>
                 </div>
             </div>
         </div>
-        <h2 class="select-sp">Select Your Starting Point</h2>
-        <div class="startpoints-container row">
-            
-        </div>
-
-        <h2 class="route-info">Here's Your Route!</h2>
-        <div class="results-container row">
-            <div class="results col-md-2"></div>
-            <div class="map col-md-6" id='map'></div>
+        <div class="startpoints-container">
+            <div>
+                <div class="tile is-parent">
+                    <div class="tile is-child sp-tile">
+                        <h2 class="select-sp title">Select Your Starting Point</h2>
+                        <div class="content sp-content"></div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+        
+        <div class="results-container box">
+            <h2 class="route-info title">Here's Your Route!</h2>
+            <div class="results"></div>
+            <div class="map" id='map'></div>
         </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
