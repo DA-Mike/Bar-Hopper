@@ -44,45 +44,49 @@ function buttonClickHandler(event) {
 
 //retrieves yelp api response
 function getStartPoints(address, meters){
-    var myUrl = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=bars&location=" + address + "&radius=" + meters + '&limit=30';
+    // var myUrl = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=bars&location=" + address + "&radius=" + meters + '&limit=30';
+    fetch("http://localhost:3000")
+        .then(response => {
+            console.log("response: ", response);
+        })
+    // $.ajax({
     
-    $.ajax({
+    // url: myUrl,
+    // headers: {
+    //     'Authorization':'Bearer ' + yelpApiKey,
+    // },
+    // method: 'GET',
+    // dataType: 'json',
+    // success: function(data){        
+    //     endLat = data.region.center.latitude;
+    //     endLong = data.region.center.longitude;
+    //     yelpObj.push(data);
+    //     solveForStartPoints(yelpObj);
+    // },
+    // error: function(err) {
+    //         $(document).ready(function(){
+    //         let modalEl = document.getElementById('myModal');
+    //             $("#myModal").addClass('is-active');
+    //             modalEl.addEventListener("click", closeModal);
+    //             function closeModal() {
+    //                 $('#myModal').removeClass('is-active');
+    //             }
+    //         })
+    //     }   
+    // })    
+    // .fail(function (jqXHR, textStatus, errorThrown) {
+    //     if (jqXHR.status !== 200) {
+    //         $(document).ready(function(){
+    //             let modalEl = document.getElementById('myModal');
+    //                 $("#myModal").addClass('is-active');
+    //                 modalEl.addEventListener("click", closeModal);
+    //                 function closeModal() {
+    //                     $('#myModal').removeClass('is-active');
+    //                 }
+    //         })
+    //     }
+    // });
     
-    url: myUrl,
-    headers: {
-        'Authorization':'Bearer ' + yelpApiKey,
-    },
-    method: 'GET',
-    dataType: 'json',
-    success: function(data){        
-        endLat = data.region.center.latitude;
-        endLong = data.region.center.longitude;
-        yelpObj.push(data);
-        solveForStartPoints(yelpObj);
-    },
-    error: function(err) {
-            $(document).ready(function(){
-            let modalEl = document.getElementById('myModal');
-                $("#myModal").addClass('is-active');
-                modalEl.addEventListener("click", closeModal);
-                function closeModal() {
-                    $('#myModal').removeClass('is-active');
-                }
-            })
-        }   
-    })    
-    .fail(function (jqXHR, textStatus, errorThrown) {
-        if (jqXHR.status !== 200) {
-            $(document).ready(function(){
-                let modalEl = document.getElementById('myModal');
-                    $("#myModal").addClass('is-active');
-                    modalEl.addEventListener("click", closeModal);
-                    function closeModal() {
-                        $('#myModal').removeClass('is-active');
-                    }
-            })
-        }
-    });
 }
 
 //TODO: get route
