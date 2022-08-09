@@ -45,10 +45,14 @@ function buttonClickHandler(event) {
 //retrieves yelp api response
 function getStartPoints(address, meters){
     // var myUrl = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=bars&location=" + address + "&radius=" + meters + '&limit=30';
-    fetch("http://localhost:3000")
-        .then(response => {
-            console.log("response: ", response);
-        })
+    var paramsStr = encodeURIComponent(address) + "&radius=" + meters + '&limit=30';
+    console.log(paramsStr);
+    var myUrl = "http://localhost:3000/search?term=bars&location=" + address + "&radius=" + meters + "&limit=30";
+    
+    fetch(myUrl)
+    .then(response => {
+        console.log("response: ", response);
+    })
     // $.ajax({
     
     // url: myUrl,
