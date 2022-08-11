@@ -10,9 +10,6 @@ Bar Hopper will then present the user with three starting points furthest from t
 
 This app utilizes the Yelp, Geoapify, and Leaflet APIs for finding bar locations, routing, and mapping. The frontend utilizes Flexboxgrid framework for element formatting.
 
-## There is a CORS issue with the Yelp API. The user must first go to https://cors-anywhere.herokuapp.com/corsdemo and click "Request temporary access to the demo server" in order for the API to work correctly.
-
-
 ## Live Site
 
 https://da-mike.github.io/Bar-Hopper/
