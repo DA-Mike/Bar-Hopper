@@ -5,8 +5,6 @@ var distance = 0;
 var inputEl = document.getElementsByClassName('input-container');
 var startEl = document.querySelector(".startpoints-container");
 var yelpApiKey = 'DYFEfk2kVJcBhHtPathDiY9bh178rFPnBNdoblLIdXyHnc0tjKrJBrqVT0KEyPxX7RyfDrusI6nUOcD3YPuopXx3KpBnxPjGYWZzEGXKMEfS90kMw8lsHm-Us17fYnYx';
-var orsApiKey = '5b3ce3597851110001cf62485129bd04419745ee8e37972a9bab1ba9';
-var clientID = '3SeWPh-JvOsppFVV3D-UAQ';
 var geoKey = '1087193dbf4941adac63e35463300f5e';
 var meters = distance * 1609;
 var startPoints = [];
@@ -41,51 +39,32 @@ function buttonClickHandler(event) {
         }
     }
 }
-
-//retrieves yelp api response
+var proxyResponse;
+//retrieves yelp api response from proxy (https://github.com/DA-Mike/Yelp-API-Proxy)
 function getStartPoints(address, meters){
-    var myUrl = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?term=bars&location=" + address + "&radius=" + meters + '&limit=30';
+    var myUrl = "https://bar-hopper.herokuapp.com/search?term=bars&location=" + address + "&radius=" + meters + "&limit=30&apiKey=" + yelpApiKey;
     
-    $.ajax({
-    
-    url: myUrl,
-    headers: {
-        'Authorization':'Bearer ' + yelpApiKey,
-    },
-    method: 'GET',
-    dataType: 'json',
-    success: function(data){        
-        endLat = data.region.center.latitude;
-        endLong = data.region.center.longitude;
-        yelpObj.push(data);
-        solveForStartPoints(yelpObj);
-    },
-    error: function(err) {
-            $(document).ready(function(){
-            let modalEl = document.getElementById('myModal');
-                $("#myModal").addClass('is-active');
-                modalEl.addEventListener("click", closeModal);
-                function closeModal() {
-                    $('#myModal').removeClass('is-active');
-                }
-            })
-        }   
-    })    
-    .fail(function (jqXHR, textStatus, errorThrown) {
-        if (jqXHR.status !== 200) {
-            $(document).ready(function(){
-                let modalEl = document.getElementById('myModal');
-                    $("#myModal").addClass('is-active');
-                    modalEl.addEventListener("click", closeModal);
-                    function closeModal() {
-                        $('#myModal').removeClass('is-active');
-                    }
-            })
-        }
+    fetch(myUrl)
+    .then((response) => response.json())
+    .then((data) => {
+        endLat = data.region.center.latitude,
+        endLong = data.region.center.longitude,
+        yelpObj.push(data),
+        solveForStartPoints(yelpObj)
+    })
+    .catch(error => {
+        $(document).ready(function(){
+        let modalEl = document.getElementById('myModal');
+            $("#myModal").addClass('is-active');
+            modalEl.addEventListener("click", closeModal);
+            function closeModal() {
+                $('#myModal').removeClass('is-active');
+            }
+        })
     });
 }
 
-//TODO: get route
+//gets route for locations
 function getRoute(candidateList, endLat, endLong){
     
     var barWayPoints = '';
