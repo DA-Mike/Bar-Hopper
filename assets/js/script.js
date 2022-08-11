@@ -42,8 +42,8 @@ function buttonClickHandler(event) {
 var proxyResponse;
 //retrieves yelp api response
 function getStartPoints(address, meters){
-    var myUrl = "https://bar-hopper.herokuapp.com:3000/search?term=bars&location=" + address + "&radius=" + meters + "&limit=30&apiKey=" + yelpApiKey;
-    //"http://localhost:3000/search?term=bars&location="
+    var myUrl = "https://bar-hopper.herokuapp.com/search?term=bars&location=" + address + "&radius=" + meters + "&limit=30&apiKey=" + yelpApiKey;
+    
     fetch(myUrl)
     .then((response) => response.json())
     .then((data) => {
