@@ -40,7 +40,7 @@ function buttonClickHandler(event) {
     }
 }
 var proxyResponse;
-//retrieves yelp api response
+//retrieves yelp api response from proxy (https://github.com/DA-Mike/Yelp-API-Proxy)
 function getStartPoints(address, meters){
     var myUrl = "https://bar-hopper.herokuapp.com/search?term=bars&location=" + address + "&radius=" + meters + "&limit=30&apiKey=" + yelpApiKey;
     
