@@ -8,7 +8,7 @@ The app requires three inputs: Address (place of lodging); number of bars you de
 
 Bar Hopper will then present the user with three starting points furthest from their place of lodging. When the user selects an interesting starting point, Bar Hopper generates a list of bars and a route from the starting bar all the way back to the user's place of lodging. This way the user can enjoy a fun night out and safely end up right back at home!
 
-This app utilizes the Yelp, Geoapify, and Leaflet APIs for finding bar locations, routing, and mapping. The frontend utilizes Flexboxgrid framework for element formatting.
+This app utilizes the Yelp, Geoapify, and Leaflet APIs for finding bar locations, routing, and mapping. The frontend utilizes Bulma framework for element formatting.
 
 ## Live Site
 
