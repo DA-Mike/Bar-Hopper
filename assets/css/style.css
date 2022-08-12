@@ -292,6 +292,15 @@ img{
     font-weight:bold;
 }
 
+.bar-title {
+    font-size: 1em;
+    color: black;
+    font-weight: 200;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: 2px;
+    animation: neon-text-shadow 2s ease-in-out infinite;
+}
+
 .col-md-4{
     padding-left: 10%;
 }
@@ -380,4 +389,87 @@ bottom:-4px;
 #myModal {
     margin: 20% auto;
     border-radius: 20px;
+}
+
+.about-link-sm {
+    display: none;
+}
+
+.sp-content-responsive {
+    display: flex;
+}
+
+.results-container-responsive {
+    display: flex;
+}
+
+
+/* responsive styling */
+@media only screen and (max-width: 600px) {
+    
+.logo-text-sm {
+    font-size: 1em;
+    color: black;
+    font-weight: 200;
+    -webkit-font-smoothing: antialiased;
+    letter-spacing: 2px;
+    animation: neon-text-shadow 2s ease-in-out infinite;
+}
+
+.about-link-lg {
+    display: none;
+}
+
+.about-link-sm {
+    display: block;
+    margin-right: 1em;
+}
+
+.select-sp {
+    font-size: 1em;
+}
+
+.img {
+    display: none;
+}
+
+img {
+    display: none;
+}
+
+.startpoint {
+    margin: .5em !important;
+}
+
+.route-info {
+    display: grid;
+    font-size: 1em;
+    text-align: center;
+    margin-left: 30%;
+}
+
+.results {
+    margin: none;
+    margin-left: 25%;
+}
+
+#map {
+    margin: none;
+    height: 300px;
+    width: 300px;
+    margin-left: 13%;
+}
+
+.sp-content {
+    display: block;
+}
+
+.sp-content-responsive {
+    display: block;
+}
+
+.results-container-responsive {
+    display: grid;
+}
+
 }
