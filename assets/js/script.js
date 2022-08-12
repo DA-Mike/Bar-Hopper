@@ -219,7 +219,6 @@ function appendStartPoints(points){
     var selectH2El = document.getElementsByClassName("select-sp");
     $(spContainer).css("display", "flex");
     $(selectH2El).css("display", "block");
-    // $(spContent).css("display", "flex");
     $(spContent).addClass("sp-content-responsive");
     $(inputEl).css("display", "none");
     
@@ -266,7 +265,6 @@ function appendRoute(routeObj) {
     var objBarPoints = routeObj[0].properties.waypoints;
 
     $(startEl).css("display", "none");
-    // $(resultsContainer).css("display", "flex");
     $(resultsContainer).addClass("results-container-responsive");
 
     for (i = 0; i < objWayPoints.length; i++) {
