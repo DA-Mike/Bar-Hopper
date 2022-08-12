@@ -445,19 +445,23 @@ img {
     display: grid;
     font-size: 1em;
     text-align: center;
-    margin-left: 30%;
+    margin-left: -.3em;
+    margin-top: 2em;
 }
 
 .results {
+    margin: 0;
+}
+
+.results-container {
     margin: none;
-    margin-left: 25%;
+    margin-left: 10em;
 }
 
 #map {
     margin: none;
     height: 300px;
     width: 300px;
-    margin-left: 13%;
 }
 
 .sp-content {
@@ -470,6 +474,10 @@ img {
 
 .results-container-responsive {
     display: grid;
+}
+
+.box {
+    background-color: rgba(0,0,0,0.01);
 }
 
 }
