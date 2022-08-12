@@ -219,13 +219,14 @@ function appendStartPoints(points){
     var selectH2El = document.getElementsByClassName("select-sp");
     $(spContainer).css("display", "flex");
     $(selectH2El).css("display", "block");
-    $(spContent).css("display", "flex");
+    // $(spContent).css("display", "flex");
+    $(spContent).addClass("sp-content-responsive");
     $(inputEl).css("display", "none");
     
     for (i = 0; i < points.length; i++) {
         var spDiv = $('<div class="startpoint" name=' + points[i].id + '></div>');
-        var spName = $('<a href=' + points[i].url + ' target="_blank">' + points[i].name + '</a>');
-        var spImg = $('<img src=' + points[i].image_url + ' width="200" height="200" name=' + points[i].id + '>');
+        var spName = $('<h3 class="bar-title">' + points[i].name + '</h3>');
+        var spImg = $('<a href=' + points[i].url + ' class="bar-link" target="_blank"><img src=' + points[i].image_url + ' width="200" height="200" name=' + points[i].id + '></a>');
 
         $(spDiv).append(spName);
         $(spDiv).append(spImg);
@@ -265,7 +266,8 @@ function appendRoute(routeObj) {
     var objBarPoints = routeObj[0].properties.waypoints;
 
     $(startEl).css("display", "none");
-    $(resultsContainer).css("display", "flex");
+    // $(resultsContainer).css("display", "flex");
+    $(resultsContainer).addClass("results-container-responsive");
 
     for (i = 0; i < objWayPoints.length; i++) {
         for (n = 0; n < objWayPoints[i].length; n++){
