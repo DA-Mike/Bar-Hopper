@@ -47,7 +47,7 @@ function getStartPoints(address, meters){
     fetch(myUrl, {
         mode: 'cors',
         headers: {
-            'Access-Control-Allow-Origin': 'https://da-mike.github.io/Bar-Hopper/',
+            "Access-Control-Allow-Origin": "*",
         },
     })
     .then((response) => response.json())
