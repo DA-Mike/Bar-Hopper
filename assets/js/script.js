@@ -44,7 +44,9 @@ var proxyResponse;
 function getStartPoints(address, meters){
     var myUrl = "https://bar-hopper.herokuapp.com/search?term=bars&location=" + address + "&radius=" + meters + "&limit=30&apiKey=" + yelpApiKey;
     
-    fetch(myUrl)
+    fetch(myUrl, {
+        mode: 'cors',
+    })
     .then((response) => response.json())
     .then((data) => {
         endLat = data.region.center.latitude,
