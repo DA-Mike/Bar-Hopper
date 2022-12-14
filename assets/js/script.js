@@ -58,6 +58,7 @@ function getStartPoints(address, meters){
         solveForStartPoints(yelpObj)
     })
     .catch(error => {
+        console.log('error:', error);
         $(document).ready(function(){
         let modalEl = document.getElementById('myModal');
             $("#myModal").addClass('is-active');
