@@ -1,4 +1,4 @@
-//vars
+// vars
 var address = '';
 var barNumber = 0;
 var distance = 0;
@@ -20,13 +20,13 @@ var candidates = [];
 var yelpStart = [];
 var routeObj = [];
 
-//handles input
+// handles input
 function formSubmitHandler(distance, address, barnumber) {
     meters = distance * 1609;
     getStartPoints(address, meters);
 }
 
-//handles starting point selection
+// handles starting point selection
 function buttonClickHandler(event) {
     event.preventDefault();
 
@@ -40,7 +40,7 @@ function buttonClickHandler(event) {
     }
 }
 var proxyResponse;
-//retrieves yelp api response from proxy (https://github.com/DA-Mike/Yelp-API-Proxy)
+// retrieves yelp api response from proxy (https://github.com/DA-Mike/Yelp-API-Proxy)
 function getStartPoints(address, meters){
     var myUrl = "https://bar-hopper.herokuapp.com/search?term=bars&location=" + address + "&radius=" + meters + "&limit=30&apiKey=" + yelpApiKey;
     
@@ -70,7 +70,7 @@ function getStartPoints(address, meters){
     });
 }
 
-//gets route for locations
+// gets route for locations
 function getRoute(candidateList, endLat, endLong){
     
     var barWayPoints = '';
@@ -117,7 +117,7 @@ function getRoute(candidateList, endLat, endLong){
         });
 }
 
-//finds bars that are furthest away from endpoint with distance input parameter
+// finds bars that are furthest away from endpoint with distance input parameter
 function solveForStartPoints(yelp) {
     startPoints = [];
     for (i = 0; i < yelp[0].businesses.length; i++) {
@@ -125,7 +125,7 @@ function solveForStartPoints(yelp) {
         if (itDistance >= (meters * .9) || itDistance >= (meters * .65) || itDistance >= (meters * .5)) {
             yelpStart.push(yelp[0].businesses[i]);
         } else if (itDistance <= (meters * .1)) {
-            //creates short distance list in case we solve for less than desired number of bars
+            // creates short distance list in case we solve for less than desired number of bars
             shortList.push(yelp[0].businesses[i]);
         }
     }
@@ -138,7 +138,7 @@ function solveForStartPoints(yelp) {
     appendStartPoints(startPoints);
 }
 
-//finds which quadrant start point is in relative to end point
+// finds which quadrant start point is in relative to end point (0, 0)
 function findQuadrant(endLat, endLong, yelpStartPoint) {
     
     if (yelpStartPoint.coordinates.latitude < endLat && yelpStartPoint.coordinates.longitude > endLong) {
@@ -152,7 +152,7 @@ function findQuadrant(endLat, endLong, yelpStartPoint) {
     }
 }
 
-//quadrant solvers
+// quadrant solvers
 function quadrant4(endLat, endLong, yelpStartPoint, yelpObj) {
     for (i = 0; i < yelpObj[0].businesses.length; i++) {
         if ((yelpObj[0].businesses[i].coordinates.latitude < endLat) && (yelpObj[0].businesses[i].coordinates.longitude > endLong)) {
@@ -189,7 +189,7 @@ function quadrant1(endLat, endLong, yelpStartPoint, yelpObj) {
     optimizer(candidates, shortList, yelpStartPoint);
 }
 
-//optimizes list to ensure the results match the desired number of bars
+// optimizes list to ensure the results match the desired number of bars
 function optimizer(candidates, shortList, startInput) {
     if (candidates.length < barNumber) {
         for (i = 0; i < (barNumber - candidates.length); i++) {
@@ -218,7 +218,7 @@ function optimizer(candidates, shortList, startInput) {
 }
 
 
-//append startpoints to DOM
+// append startpoints to DOM
 function appendStartPoints(points){
     var spContent = document.getElementsByClassName("sp-content");
     var spContainer = document.getElementsByClassName("startpoints-container");
@@ -239,7 +239,7 @@ function appendStartPoints(points){
     }
 }
 
-//append route results to DOM
+// append route results to DOM
 function appendResults(barResults) {
     var resultsEl = document.getElementsByClassName('results');
     var selectH2El = document.getElementsByClassName('select-sp');
@@ -263,7 +263,7 @@ function appendResults(barResults) {
     $(routeInfoEl).css("display", "grid");
 }
 
-//appends route to DOM
+// appends route to DOM
 function appendRoute(routeObj) {
     var resultsContainer = document.getElementsByClassName("results-container");
     var objWayPoints =  routeObj[0].results[0].geometry;
@@ -299,7 +299,7 @@ function appendRoute(routeObj) {
     }
 }
 
-//homepage event listener
+// homepage event listener
 document.getElementById('button')
 .addEventListener('click',function(){
     address = document.getElementById('address').value;
@@ -314,9 +314,9 @@ function init() {
     document.getElementById('distance').value = '';
 }
 
-//starting point event listener 
+// starting point event listener 
 startEl.addEventListener("click", buttonClickHandler);
 
 
-//initialize page
+// initialize page
 init();
